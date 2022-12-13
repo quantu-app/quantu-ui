@@ -21,6 +21,7 @@
 	class:as-bg-blue-500={notification.type === 'info'}
 	class:as-bg-yellow-500={notification.type === 'warning'}
 	on:click={onDelete}
+	on:keypress={onDelete}
 >
 	<div class="as-w-6 as-h-6 as-mr-2 as-text-white">
 		{#if notification.type === 'error'}

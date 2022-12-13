@@ -2,12 +2,7 @@ import { createInsecureID } from '../util';
 import type { Readable } from 'svelte/store';
 import { writable } from 'svelte/store';
 
-export enum NotificationType {
-	Success = 'success',
-	Error = 'error',
-	Info = 'info',
-	Warning = 'warning'
-}
+export type NotificationType = 'success' | 'error' | 'info' | 'warning';
 
 export type Notification = {
 	id: string;
@@ -21,7 +16,7 @@ export const notifications: Readable<Notification[]> = writableNotifications;
 
 export function createNotification(
 	message: string,
-	type: NotificationType = NotificationType.Error,
+	type: NotificationType = 'error',
 	deleteAfterMS = 5000
 ) {
 	const id = createInsecureID();
