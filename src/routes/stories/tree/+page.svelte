@@ -4,10 +4,24 @@
 	const node = {
 		id: '1',
 		title: 'This is a very long title for a node',
+		expanded: false,
 		children: [
 			{
 				id: '2',
-				title: 'Short and simple',
+				title: 'Apples',
+				expanded: false,
+				children: []
+			},
+			{
+				id: '3',
+				title: 'Bananas',
+				expanded: false,
+				children: []
+			},
+			{
+				id: '3',
+				title: 'Oranges',
+				expanded: false,
 				children: []
 			}
 		]
