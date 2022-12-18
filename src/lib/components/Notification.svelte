@@ -1,7 +1,7 @@
 <svelte:options immutable />
 
 <script lang="ts">
-	import { removeNotification, type Notification } from '$lib/state/notifications';
+	import { removeNotification, type Notification } from '$lib/stores/notifications';
 	import MdError from 'svelte-icons/md/MdError.svelte';
 	import MdCheckCircle from 'svelte-icons/md/MdCheckCircle.svelte';
 	import MdInfo from 'svelte-icons/md/MdInfo.svelte';

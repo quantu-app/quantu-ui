@@ -26,6 +26,7 @@
 		"@sveltejs/kit": "^1.0.0",
 		"@tauri-apps/api": "next",
 		"@tauri-apps/cli": "next",
+		"@types/uuid": "^9.0.0",
 		"@typescript-eslint/eslint-plugin": "^5.46.1",
 		"@typescript-eslint/parser": "^5.46.1",
 		"autoprefixer": "^10.4.13",
@@ -45,8 +46,14 @@
 		"vitest": "^0.25.8"
 	},
 	"dependencies": {
+		"@aicacia/debounce": "^0.1.21",
 		"@svelte-put/clickoutside": "^1.1.2",
+		"slate": "^0.87.0",
+		"slate-history": "^0.86.0",
 		"svelte-icons": "^2.1.0",
-		"svelte-portal": "^2.2.0"
+		"svelte-localstorage-writable": "^0.1.0",
+		"svelte-portal": "^2.2.0",
+		"svelte-slate": "^0.1.77",
+		"uuid": "^9.0.0"
 	}
 }
