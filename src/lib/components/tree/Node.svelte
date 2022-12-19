@@ -1,27 +1,26 @@
 <script lang="ts">
 	import type { UINode } from '$lib/types';
+	import type { Writable } from 'svelte/store';
+
 	export let node: UINode;
+	export let path: string[];
+	export let root: Writable<UINode[]>;
 
 	let hovering = false;
 	let dragging = false;
-	let dragTarget = false;
-	let dragTargetNode;
+	let dragSourcePath: string | undefined = undefined;
+	let dragTargetPath: string | undefined = undefined;
+	const stringPath: string = path.join('.');
 
-	function openOptionsMenu() {
-		console.log('TODO: [implement openOptionsMenu()]');
-	}
-
-	function openNewNodeMenu() {
-		console.log('TODO: [implement openNewNodeMenu()]');
-	}
+	const openOptionsMenu = (event: Event) => {};
+	const openNewNodeMenu = (event: Event) => {};
 
 	function dragStart(event: Event) {
-		let content = event.target.innerHTML;
+		dragSourcePath = event.target?.dataset.path;
+		dragTargetPath = undefined;
 		dragging = true;
-		event.dataTransfer.effectAllowed = 'move';
-		event.dataTransfer.setData('text/html', content);
 
-		return false;
+		event.dataTransfer.setData('text', dragSourcePath);
 	}
 
 	function dragEnd(event: Event) {
@@ -35,21 +34,23 @@
 
 	function dragOver(event: Event) {
 		event.preventDefault();
-		return false;
+		let elem = event.target;
+		let nodeWrapper = elem.closest('.node-block-wrapper');
+		dragTargetPath = nodeWrapper.dataset.path;
 	}
-	function dragLeave(event: Event) {
-		dragTarget = false;
-		dragTargetNode = null;
-	}
-	function dragEnter(event: Event) {
-		dragTarget = true;
-		dragTargetNode = event.target;
-	}
+	function dragLeave(event: Event) {}
+	function dragEnter(event: Event) {}
 
 	function dragDrop(event: Event) {
-		event.stopPropagation();
-		if (event.target !== dragTargetNode) {
-			event.target.innerHTML = event.dataTransfer.getData('text/html');
+		event.preventDefault();
+		dragSourcePath = event.dataTransfer.getData('text');
+		if (dragTargetPath && dragSourcePath && dragTargetPath !== dragSourcePath) {
+			console.log(dragSourcePath, dragTargetPath);
+			root.update((nodes) => {
+				for (let nodeId in dragSourcePath?.split('.')) {
+					// todo: implement
+				}
+			});
 		}
 		return false;
 	}
@@ -57,9 +58,8 @@
 
 <div
 	class="node-block-wrapper"
-	class:border-t-4={dragTarget}
-	class:border-indigo-500={dragTarget}
 	draggable="true"
+	data-path={stringPath}
 	on:dragover={dragOver}
 	on:dragenter={dragEnter}
 	on:dragleave={dragLeave}
@@ -119,8 +119,8 @@
 	</div>
 	{#if node.expanded}
 		<div class="node-block--children ml-4">
-			{#each node.children as child}
-				<svelte:self node={child} />
+			{#each node.children as childNode}
+				<svelte:self path={[...path, childNode.id]} node={childNode} {root} />
 			{/each}
 		</div>
 	{/if}

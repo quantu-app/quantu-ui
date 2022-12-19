@@ -1,33 +1,34 @@
 <script>
-	import Node from '$lib/components/tree/Node.svelte';
+	import Tree from '$lib/components/tree/Tree.svelte';
 
-	const node = {
-		id: '1',
-		title: 'This is a very long title for a node',
-		expanded: false,
-		children: [
-			{
-				id: '2',
-				title: 'Apples',
-				expanded: false,
-				children: []
-			},
-			{
-				id: '3',
-				title: 'Bananas',
-				expanded: false,
-				children: []
-			},
-			{
-				id: '3',
-				title: 'Oranges',
-				expanded: false,
-				children: []
-			}
-		]
-	};
+	const nodes = [
+		{
+			id: '2',
+			title: 'Apples',
+			expanded: false,
+			children: []
+		},
+		{
+			id: '3',
+			title: 'Bananas',
+			expanded: false,
+			children: [
+				{
+					id: '17',
+					title: 'Banana Bread',
+					expanded: false
+				}
+			]
+		},
+		{
+			id: '4',
+			title: 'Oranges',
+			expanded: false,
+			children: []
+		}
+	];
 </script>
 
 <div class="w-48 mx-auto border border-gray-600">
-	<Node {node} expanded={true} />
+	<Tree {nodes} />
 </div>
