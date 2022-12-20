@@ -6,7 +6,20 @@
 			id: '2',
 			title: 'Apples',
 			expanded: false,
-			children: []
+			children: [
+				{
+					id: '14',
+					title: 'Apple Pie',
+					expanded: false,
+					children: []
+				},
+				{
+					id: '17',
+					title: 'Macbook Pro',
+					expanded: false,
+					children: []
+				}
+			]
 		},
 		{
 			id: '3',
@@ -16,7 +29,8 @@
 				{
 					id: '17',
 					title: 'Banana Bread',
-					expanded: false
+					expanded: false,
+					children: []
 				}
 			]
 		},

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { UINode } from '$lib/types';
+	import { insert_hydration_dev } from 'svelte/internal';
 	import type { Writable } from 'svelte/store';
 
 	export let node: UINode;
@@ -41,15 +42,76 @@
 	function dragLeave(event: Event) {}
 	function dragEnter(event: Event) {}
 
+	function insertNode(nodes: UINode[], ids: string[], newNode: UINode): any {
+		for (let k = 0; k < ids.length; k++) {
+			const id = ids[k];
+
+			for (let j = 0; j < nodes.length; j++) {
+				const node = nodes[j];
+
+				if (id === node.id) {
+					if (k === ids.length - 1) {
+						// end of search
+						return nodes.splice(k, 0, newNode);
+					} else {
+						if (node.children.length > 0) {
+							const nextIds = ids.slice(k + 1);
+							return insertNode(node.children, nextIds, newNode);
+						} else {
+							// we have more ids but no children in tree
+							throw Error('invalid insertion index');
+						}
+					}
+				}
+			}
+		}
+	}
+
+	function extractNode(nodes: UINode[], ids: string[]): UINode | null {
+		if (nodes.length === 0) {
+			return null;
+		}
+
+		for (let k = 0; k < ids.length; k++) {
+			const id = ids[k];
+
+			for (let j = 0; j < nodes.length; j++) {
+				const node = nodes[j];
+
+				if (id === node.id) {
+					if (k === ids.length - 1) {
+						// end of search
+						return nodes.splice(j, 1)[0];
+					} else {
+						if (node.children.length > 0) {
+							const nextIds = ids.slice(k + 1);
+							return extractNode(node.children, nextIds);
+						} else {
+							// we have more ids but no children in tree
+							return null;
+						}
+					}
+				}
+			}
+		}
+
+		return null;
+	}
+
 	function dragDrop(event: Event) {
 		event.preventDefault();
 		dragSourcePath = event.dataTransfer.getData('text');
 		if (dragTargetPath && dragSourcePath && dragTargetPath !== dragSourcePath) {
-			console.log(dragSourcePath, dragTargetPath);
 			root.update((nodes) => {
-				for (let nodeId in dragSourcePath?.split('.')) {
-					// todo: implement
-				}
+				const sourceIds = dragSourcePath.split('.');
+				const targetIds = dragTargetPath.split('.');
+				let movedNode: UINode | null = null;
+
+				// level one
+				movedNode = extractNode(nodes, sourceIds);
+				insertNode(nodes, targetIds, movedNode);
+
+				return nodes;
 			});
 		}
 		return false;
