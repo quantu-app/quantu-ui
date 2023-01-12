@@ -9,7 +9,7 @@ export default defineConfig(async () => {
 	const config = {
 		server: {
 			host: '0.0.0.0',
-			port: 3000,
+			port: 4000,
 			strictPort: true,
 			hmr: {
 				protocol: 'ws',
@@ -18,7 +18,7 @@ export default defineConfig(async () => {
 			}
 		},
 		preview: {
-			port: 3000
+			port: 4000
 		},
 		plugins: [sveltekit()],
 		test: {
