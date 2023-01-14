@@ -11,6 +11,7 @@ const DATABASE_OPTIONS: OpenDBCallbacks<IndexedDBSchema> = {
 			autoIncrement: true
 		});
 		quizStore.createIndex('id', 'id');
+		quizStore.createIndex('user_id', 'user_id');
 		quizStore.createIndex('local_id', 'local_id');
 		quizStore.createIndex('local_deleted', 'local_deleted');
 	}
@@ -22,7 +23,7 @@ export interface IndexedDBSchema extends DBSchema {
 	quizzes: {
 		value: LocalSchema<Quiz>;
 		key: number;
-		indexes: { id: number; local_id: number; local_deleted: number };
+		indexes: { id: number; user_id: number; local_id: number; local_deleted: number };
 	};
 }
 

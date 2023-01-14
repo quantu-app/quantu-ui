@@ -15,7 +15,7 @@
 </script>
 
 <div class="max-w-xs m-auto">
-	<form on:submit={onSubmit}>
+	<form on:submit|preventDefault={onSubmit}>
 		<input type="email" class="mb-1" placeholder="Email" bind:value={email} />
 		<input type="password" class="mb-1" placeholder="Password" bind:value={password} />
 		<input type="submit" class="btn primary" value="Login" disabled={!email || !password} />

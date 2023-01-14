@@ -16,8 +16,8 @@ export async function idbGetQuizByLocalUUID(localId: number) {
 export async function idbCreateQuiz(data: APICreateQuiz) {
 	const db = await getIndexedDB();
 	const quiz = {
-		...data,
-		...createEmptyQuiz()
+		...createEmptyQuiz(),
+		...data
 	};
 	const localId = await db.put('quizzes', quiz);
 	return { ...quiz, local_id: localId };
