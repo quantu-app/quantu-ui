@@ -19,7 +19,7 @@ export function quizFromJSON(json: QuizJSON): Quiz {
 	};
 }
 
-export async function getQuizzes() {
+export async function apiGetQuizzes() {
 	const res = await fetch(`${import.meta.env.VITE_QUANTU_API_URL}/api/quizzes`, {
 		headers: {
 			...getHeaders(),
@@ -34,7 +34,7 @@ export async function getQuizzes() {
 	}
 }
 
-export async function getQuizById(id: number) {
+export async function apiGetQuizById(id: number) {
 	const res = await fetch(`${import.meta.env.VITE_QUANTU_API_URL}/api/quizzes/${id}`, {
 		headers: {
 			...getHeaders(),
@@ -48,12 +48,12 @@ export async function getQuizById(id: number) {
 	}
 }
 
-export type CreateQuiz = {
+export type APICreateQuiz = {
 	name: string;
 	uri: string;
 };
 
-export async function createQuiz(data: CreateQuiz) {
+export async function apiCreateQuiz(data: APICreateQuiz) {
 	const res = await fetch(`${import.meta.env.VITE_QUANTU_API_URL}/api/quizzes`, {
 		method: 'POST',
 		body: JSON.stringify(data),
@@ -69,12 +69,12 @@ export async function createQuiz(data: CreateQuiz) {
 	}
 }
 
-export type UpdateQuiz = {
+export type APIUpdateQuiz = {
 	name: string;
 	uri: string;
 };
 
-export async function updateQuiz(id: number, data: UpdateQuiz) {
+export async function apiUpdateQuiz(id: number, data: APIUpdateQuiz) {
 	const res = await fetch(`${import.meta.env.VITE_QUANTU_API_URL}/api/quizzes/${id}`, {
 		method: 'PATCH',
 		body: JSON.stringify(data),
@@ -90,7 +90,7 @@ export async function updateQuiz(id: number, data: UpdateQuiz) {
 	}
 }
 
-export async function deleteQuiz(id: number) {
+export async function apiDeleteQuiz(id: number) {
 	const res = await fetch(`${import.meta.env.VITE_QUANTU_API_URL}/api/quizzes/${id}`, {
 		method: 'DELETE',
 		headers: {

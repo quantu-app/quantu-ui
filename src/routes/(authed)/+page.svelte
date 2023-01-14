@@ -1,23 +1,10 @@
 <svelte:options immutable />
 
-<script lang="ts">
-	import { getQuizzes } from '$lib/api/quizzes';
-
-	const quizzesPromise = getQuizzes();
+<script>
+	import Quizzes from '$lib/components/quiz/Quizzes.svelte';
+	import { quizzes } from '$lib/stores/quizzes';
 </script>
 
 <div class="container mx-auto">
-	{#await quizzesPromise}
-		Loading...
-	{:then quizzes}
-		{#if quizzes.length}
-			{#each quizzes as quiz (quiz.id)}
-				{quiz.name}
-			{/each}
-		{:else}
-			No Quizzes
-		{/if}
-	{:catch error}
-		{error.message}
-	{/await}
+	<Quizzes quizzes={$quizzes} />
 </div>

@@ -1,4 +1,4 @@
-import { initializeUserFromToken } from '$lib/stores/user';
+import { initializeUser } from '$lib/stores/user';
 import { redirect } from '@sveltejs/kit';
 import type { LayoutLoad } from './$types';
 import { base } from '$app/paths';
@@ -7,7 +7,7 @@ export const ssr = false;
 
 export const load: LayoutLoad = async (_event) => {
 	try {
-		const user = await initializeUserFromToken();
+		const user = await initializeUser();
 		if (!user) {
 			throw new Error('Signed out');
 		}

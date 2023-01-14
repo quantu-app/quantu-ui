@@ -1,8 +1,11 @@
 import { apiGetCurrentUser, apiSignIn, type User } from '$lib/api/user';
-import { derived, get, writable } from 'svelte/store';
+import { derived, get } from 'svelte/store';
 import { jwt } from './jwt';
+import { localstorageWritable } from 'svelte-localstorage-writable';
+import { isOnline } from './online';
+import EventEmitter from 'eventemitter3';
 
-const userWritable = writable<User | null>(null);
+const userWritable = localstorageWritable<User | null>('user', null);
 export const user = derived(userWritable, (state) => state);
 
 export async function signIn(email: string, password: string) {
@@ -11,7 +14,31 @@ export async function signIn(email: string, password: string) {
 	return user;
 }
 
-export async function getUserFromToken() {
+export async function signOut() {
+	userWritable.set(null);
+}
+
+export async function waitForUser() {
+	return new Promise<User>((resolve) => emitter.once('user', resolve));
+}
+
+const emitter = new EventEmitter<{ user: User }>();
+let initialCall = false;
+export async function initializeUser() {
+	let currentUser = get(user);
+	if (isOnline()) {
+		if (!initialCall) {
+			initialCall = true;
+			currentUser = await getUserFromToken();
+		}
+	}
+	if (currentUser) {
+		emitter.emit('user', currentUser);
+	}
+	return currentUser;
+}
+
+async function getUserFromToken() {
 	const token = get(jwt)?.token;
 	if (token) {
 		const user = await apiGetCurrentUser();
@@ -19,15 +46,5 @@ export async function getUserFromToken() {
 		return user;
 	} else {
 		return null;
-	}
-}
-
-let initialCall = false;
-export async function initializeUserFromToken() {
-	if (initialCall) {
-		return get(user);
-	} else {
-		initialCall = true;
-		return getUserFromToken();
 	}
 }
