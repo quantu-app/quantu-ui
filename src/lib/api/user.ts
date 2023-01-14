@@ -1,4 +1,4 @@
-import { getHeaders, jwtWritable } from '$lib/stores/jwt';
+import { getHeaders, setJWT } from '$lib/stores/jwt';
 import type { IAsJSON } from '@aicacia/json';
 
 export type User = {
@@ -34,7 +34,7 @@ export function jwtFromJSON(json: JWTJSON): JWT {
 	};
 }
 
-export async function signIn(email: string, password: string) {
+export async function apiSignIn(email: string, password: string) {
 	const res = await fetch(`${import.meta.env.VITE_QUANTU_API_URL}/api/auth/login`, {
 		method: 'POST',
 		body: JSON.stringify({ email, password }),
@@ -44,14 +44,14 @@ export async function signIn(email: string, password: string) {
 	});
 	if (res.ok) {
 		const jwt = jwtFromJSON(await res.json());
-		jwtWritable.set(jwt);
-		return getCurrentUser();
+		setJWT(jwt);
+		return apiGetCurrentUser();
 	} else {
 		throw res;
 	}
 }
 
-export async function getCurrentUser() {
+export async function apiGetCurrentUser() {
 	const res = await fetch(`${import.meta.env.VITE_QUANTU_API_URL}/api/auth/me`, {
 		headers: {
 			...getHeaders(),
