@@ -7,3 +7,7 @@ declare namespace App {
 	// interface PageData {}
 	// interface Platform {}
 }
+
+interface ImportMetaEnv {
+	VITE_QUANTU_API_URL: string;
+}

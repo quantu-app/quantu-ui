@@ -1,9 +1,9 @@
 <svelte:options immutable />
 
 <script lang="ts">
-	import type { Quiz } from '$lib/api/quizzes';
 	import type { LocalSchema } from '$lib/idb/IndexedDB';
-	import { createQuiz } from '$lib/stores/quizzes';
+	import { createQuiz, type Quiz } from '$lib/stores/quizzes';
+	import { convertToUrlSafe } from '$lib/util';
 
 	export let onCreate: (quiz: LocalSchema<Quiz>) => void;
 
@@ -11,13 +11,12 @@
 	let uri: string;
 
 	async function onSubmit() {
-		const quiz = await createQuiz({ name, uri });
+		const quiz = await createQuiz({ name });
 		onCreate(quiz);
 	}
 
 	function onNameChange(e: Event & { currentTarget: HTMLInputElement }) {
-		const value = e.currentTarget.value;
-		uri = value.trim().toLowerCase();
+		uri = convertToUrlSafe(e.currentTarget.value);
 	}
 </script>
 

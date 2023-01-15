@@ -3,9 +3,9 @@
 <script lang="ts">
 	import MdEdit from 'svelte-icons/md/MdEdit.svelte';
 	import MdDelete from 'svelte-icons/md/MdDelete.svelte';
-	import type { Quiz } from '$lib/api/quizzes';
 	import Modal from '../Modal.svelte';
 	import CreateQuiz from './CreateQuiz.svelte';
+	import type { Quiz } from '$lib/stores/quizzes';
 
 	export let quizzes: Quiz[];
 

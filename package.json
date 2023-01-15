@@ -10,7 +10,7 @@
 		"preview": "vite preview",
 		"desktop": "tauri dev",
 		"desktop.build": "tauri build",
-		"openapi-generator-quantu": "openapi-generator-cli generate -i http://localhost:3000/api/docs.json -g typescript-fetch -o 'src/lib/openapi/quantu' --additional-properties=withoutRuntimeChecks=true,supportsES6=true,withInterfaces=true",
+		"openapi-generator-quantu": "rm -rf src/lib/openapi/quantu && openapi-generator-cli generate -i http://localhost:3000/api/docs.json -g typescript-fetch -o 'src/lib/openapi/quantu' --type-mappings=DateTime=Date --additional-properties=modelPropertyNaming=snake_case,,supportsES6=true,withInterfaces=true",
 		"test": "playwright test",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",

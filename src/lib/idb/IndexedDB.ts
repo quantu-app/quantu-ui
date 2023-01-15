@@ -1,6 +1,6 @@
 import { type IDBPDatabase, type DBSchema, openDB, type OpenDBCallbacks } from 'idb';
 import EventEmitter from 'eventemitter3';
-import type { Quiz } from '../api/quizzes';
+import type { Quiz } from '$lib/stores/quizzes';
 
 const DATABASE_NAME = 'quantu';
 const DATABASE_VERSION = 1;
@@ -11,7 +11,6 @@ const DATABASE_OPTIONS: OpenDBCallbacks<IndexedDBSchema> = {
 			autoIncrement: true
 		});
 		quizStore.createIndex('id', 'id');
-		quizStore.createIndex('user_id', 'user_id');
 		quizStore.createIndex('local_id', 'local_id');
 		quizStore.createIndex('local_deleted', 'local_deleted');
 	}
