@@ -14,34 +14,34 @@
 
 import { exists, mapValues } from '../runtime';
 /**
- * Mercury_Entities_ErrorResponse model
+ * ErrorResponse model
  * @export
- * @interface MercuryEntitiesErrorResponse
+ * @interface ErrorResponse
  */
-export interface MercuryEntitiesErrorResponse {
+export interface ErrorResponse {
     /**
      * 
      * @type {Array<string>}
-     * @memberof MercuryEntitiesErrorResponse
+     * @memberof ErrorResponse
      */
     errors: Array<string>;
 }
 
 /**
- * Check if a given object implements the MercuryEntitiesErrorResponse interface.
+ * Check if a given object implements the ErrorResponse interface.
  */
-export function instanceOfMercuryEntitiesErrorResponse(value: object): boolean {
+export function instanceOfErrorResponse(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "errors" in value;
 
     return isInstance;
 }
 
-export function MercuryEntitiesErrorResponseFromJSON(json: any): MercuryEntitiesErrorResponse {
-    return MercuryEntitiesErrorResponseFromJSONTyped(json, false);
+export function ErrorResponseFromJSON(json: any): ErrorResponse {
+    return ErrorResponseFromJSONTyped(json, false);
 }
 
-export function MercuryEntitiesErrorResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): MercuryEntitiesErrorResponse {
+export function ErrorResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): ErrorResponse {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -51,7 +51,7 @@ export function MercuryEntitiesErrorResponseFromJSONTyped(json: any, ignoreDiscr
     };
 }
 
-export function MercuryEntitiesErrorResponseToJSON(value?: MercuryEntitiesErrorResponse | null): any {
+export function ErrorResponseToJSON(value?: ErrorResponse | null): any {
     if (value === undefined) {
         return undefined;
     }

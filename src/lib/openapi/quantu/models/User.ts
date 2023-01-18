@@ -14,76 +14,76 @@
 
 import { exists, mapValues } from '../runtime';
 /**
- * Mercury_Entities_Quiz model
+ * User model
  * @export
- * @interface MercuryEntitiesQuiz
+ * @interface User
  */
-export interface MercuryEntitiesQuiz {
+export interface User {
     /**
-     * 
+     * ID
      * @type {number}
-     * @memberof MercuryEntitiesQuiz
+     * @memberof User
      */
     id: number;
     /**
-     * 
+     * E-Mail
      * @type {string}
-     * @memberof MercuryEntitiesQuiz
+     * @memberof User
      */
-    name: string;
+    email: string;
     /**
-     * 
+     * Username
      * @type {string}
-     * @memberof MercuryEntitiesQuiz
+     * @memberof User
      */
-    uri: string;
+    username: string;
     /**
      * 
      * @type {Date}
-     * @memberof MercuryEntitiesQuiz
+     * @memberof User
      */
     created_at: Date;
     /**
      * 
      * @type {Date}
-     * @memberof MercuryEntitiesQuiz
+     * @memberof User
      */
     updated_at: Date;
 }
 
 /**
- * Check if a given object implements the MercuryEntitiesQuiz interface.
+ * Check if a given object implements the User interface.
  */
-export function instanceOfMercuryEntitiesQuiz(value: object): boolean {
+export function instanceOfUser(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "id" in value;
-    isInstance = isInstance && "name" in value;
-    isInstance = isInstance && "uri" in value;
+    isInstance = isInstance && "email" in value;
+    isInstance = isInstance && "username" in value;
     isInstance = isInstance && "created_at" in value;
     isInstance = isInstance && "updated_at" in value;
 
     return isInstance;
 }
 
-export function MercuryEntitiesQuizFromJSON(json: any): MercuryEntitiesQuiz {
-    return MercuryEntitiesQuizFromJSONTyped(json, false);
+export function UserFromJSON(json: any): User {
+    return UserFromJSONTyped(json, false);
 }
 
-export function MercuryEntitiesQuizFromJSONTyped(json: any, ignoreDiscriminator: boolean): MercuryEntitiesQuiz {
+export function UserFromJSONTyped(json: any, ignoreDiscriminator: boolean): User {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
         'id': json['id'],
-        'name': json['name'],
-        'uri': json['uri'],
+        'email': json['email'],
+        'username': json['username'],
         'created_at': (new Date(json['created_at'])),
         'updated_at': (new Date(json['updated_at'])),
     };
 }
 
-export function MercuryEntitiesQuizToJSON(value?: MercuryEntitiesQuiz | null): any {
+export function UserToJSON(value?: User | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -93,8 +93,8 @@ export function MercuryEntitiesQuizToJSON(value?: MercuryEntitiesQuiz | null): a
     return {
         
         'id': value.id,
-        'name': value.name,
-        'uri': value.uri,
+        'email': value.email,
+        'username': value.username,
         'created_at': (value.created_at.toISOString()),
         'updated_at': (value.updated_at.toISOString()),
     };

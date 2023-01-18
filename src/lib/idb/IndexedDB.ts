@@ -1,6 +1,6 @@
 import { type IDBPDatabase, type DBSchema, openDB, type OpenDBCallbacks } from 'idb';
 import EventEmitter from 'eventemitter3';
-import type { Quiz } from '$lib/stores/quizzes';
+import type { Quiz } from '$lib/openapi/quantu';
 
 const DATABASE_NAME = 'quantu';
 const DATABASE_VERSION = 1;

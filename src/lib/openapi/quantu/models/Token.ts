@@ -14,52 +14,52 @@
 
 import { exists, mapValues } from '../runtime';
 /**
- * Mercury_Entities_Token model
+ * Token model
  * @export
- * @interface MercuryEntitiesToken
+ * @interface Token
  */
-export interface MercuryEntitiesToken {
+export interface Token {
     /**
-     * 
+     * Token
      * @type {string}
-     * @memberof MercuryEntitiesToken
+     * @memberof Token
      */
     token: string;
     /**
-     * 
-     * @type {number}
-     * @memberof MercuryEntitiesToken
+     * Expiration Date
+     * @type {Date}
+     * @memberof Token
      */
-    exp: number;
+    expires_at: Date;
 }
 
 /**
- * Check if a given object implements the MercuryEntitiesToken interface.
+ * Check if a given object implements the Token interface.
  */
-export function instanceOfMercuryEntitiesToken(value: object): boolean {
+export function instanceOfToken(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "token" in value;
-    isInstance = isInstance && "exp" in value;
+    isInstance = isInstance && "expires_at" in value;
 
     return isInstance;
 }
 
-export function MercuryEntitiesTokenFromJSON(json: any): MercuryEntitiesToken {
-    return MercuryEntitiesTokenFromJSONTyped(json, false);
+export function TokenFromJSON(json: any): Token {
+    return TokenFromJSONTyped(json, false);
 }
 
-export function MercuryEntitiesTokenFromJSONTyped(json: any, ignoreDiscriminator: boolean): MercuryEntitiesToken {
+export function TokenFromJSONTyped(json: any, ignoreDiscriminator: boolean): Token {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
         'token': json['token'],
-        'exp': json['exp'],
+        'expires_at': (new Date(json['expires_at'])),
     };
 }
 
-export function MercuryEntitiesTokenToJSON(value?: MercuryEntitiesToken | null): any {
+export function TokenToJSON(value?: Token | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -69,7 +69,7 @@ export function MercuryEntitiesTokenToJSON(value?: MercuryEntitiesToken | null):
     return {
         
         'token': value.token,
-        'exp': value.exp,
+        'expires_at': (value.expires_at.toISOString()),
     };
 }
 

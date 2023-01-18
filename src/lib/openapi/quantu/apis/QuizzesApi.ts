@@ -15,25 +15,21 @@
 
 import * as runtime from '../runtime';
 import type {
-  MercuryEntitiesErrorResponse,
-  MercuryEntitiesMovedQuestion,
-  MercuryEntitiesQuestion,
-  MercuryEntitiesQuiz,
+  ErrorResponse,
+  MovedQuestion,
   PatchApiQuizzesId,
   PatchApiQuizzesQuizIdQuestionsId,
   PatchApiQuizzesQuizIdQuestionsIdMove,
   PostApiQuizzes,
   PostApiQuizzesQuizIdQuestions,
+  Question,
+  Quiz,
 } from '../models';
 import {
-    MercuryEntitiesErrorResponseFromJSON,
-    MercuryEntitiesErrorResponseToJSON,
-    MercuryEntitiesMovedQuestionFromJSON,
-    MercuryEntitiesMovedQuestionToJSON,
-    MercuryEntitiesQuestionFromJSON,
-    MercuryEntitiesQuestionToJSON,
-    MercuryEntitiesQuizFromJSON,
-    MercuryEntitiesQuizToJSON,
+    ErrorResponseFromJSON,
+    ErrorResponseToJSON,
+    MovedQuestionFromJSON,
+    MovedQuestionToJSON,
     PatchApiQuizzesIdFromJSON,
     PatchApiQuizzesIdToJSON,
     PatchApiQuizzesQuizIdQuestionsIdFromJSON,
@@ -44,6 +40,10 @@ import {
     PostApiQuizzesToJSON,
     PostApiQuizzesQuizIdQuestionsFromJSON,
     PostApiQuizzesQuizIdQuestionsToJSON,
+    QuestionFromJSON,
+    QuestionToJSON,
+    QuizFromJSON,
+    QuizToJSON,
 } from '../models';
 
 export interface DeleteApiQuizzesIdRequest {
@@ -136,12 +136,12 @@ export interface QuizzesApiInterface {
      * @throws {RequiredError}
      * @memberof QuizzesApiInterface
      */
-    getApiQuizzesRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<MercuryEntitiesQuiz>>>;
+    getApiQuizzesRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Quiz>>>;
 
     /**
      * List all quizzes
      */
-    getApiQuizzes(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<MercuryEntitiesQuiz>>;
+    getApiQuizzes(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<Quiz>>;
 
     /**
      * Show a quiz
@@ -150,12 +150,12 @@ export interface QuizzesApiInterface {
      * @throws {RequiredError}
      * @memberof QuizzesApiInterface
      */
-    getApiQuizzesIdRaw(requestParameters: GetApiQuizzesIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MercuryEntitiesQuiz>>;
+    getApiQuizzesIdRaw(requestParameters: GetApiQuizzesIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Quiz>>;
 
     /**
      * Show a quiz
      */
-    getApiQuizzesId(requestParameters: GetApiQuizzesIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MercuryEntitiesQuiz>;
+    getApiQuizzesId(requestParameters: GetApiQuizzesIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Quiz>;
 
     /**
      * List all questions belonging to a Quiz
@@ -164,12 +164,12 @@ export interface QuizzesApiInterface {
      * @throws {RequiredError}
      * @memberof QuizzesApiInterface
      */
-    getApiQuizzesQuizIdQuestionsRaw(requestParameters: GetApiQuizzesQuizIdQuestionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<MercuryEntitiesQuestion>>>;
+    getApiQuizzesQuizIdQuestionsRaw(requestParameters: GetApiQuizzesQuizIdQuestionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Question>>>;
 
     /**
      * List all questions belonging to a Quiz
      */
-    getApiQuizzesQuizIdQuestions(requestParameters: GetApiQuizzesQuizIdQuestionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<MercuryEntitiesQuestion>>;
+    getApiQuizzesQuizIdQuestions(requestParameters: GetApiQuizzesQuizIdQuestionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<Question>>;
 
     /**
      * Show a Question
@@ -179,12 +179,12 @@ export interface QuizzesApiInterface {
      * @throws {RequiredError}
      * @memberof QuizzesApiInterface
      */
-    getApiQuizzesQuizIdQuestionsIdRaw(requestParameters: GetApiQuizzesQuizIdQuestionsIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MercuryEntitiesQuestion>>;
+    getApiQuizzesQuizIdQuestionsIdRaw(requestParameters: GetApiQuizzesQuizIdQuestionsIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Question>>;
 
     /**
      * Show a Question
      */
-    getApiQuizzesQuizIdQuestionsId(requestParameters: GetApiQuizzesQuizIdQuestionsIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MercuryEntitiesQuestion>;
+    getApiQuizzesQuizIdQuestionsId(requestParameters: GetApiQuizzesQuizIdQuestionsIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Question>;
 
     /**
      * Update a quiz
@@ -194,12 +194,12 @@ export interface QuizzesApiInterface {
      * @throws {RequiredError}
      * @memberof QuizzesApiInterface
      */
-    patchApiQuizzesIdRaw(requestParameters: PatchApiQuizzesIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MercuryEntitiesQuiz>>;
+    patchApiQuizzesIdRaw(requestParameters: PatchApiQuizzesIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Quiz>>;
 
     /**
      * Update a quiz
      */
-    patchApiQuizzesId(requestParameters: PatchApiQuizzesIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MercuryEntitiesQuiz>;
+    patchApiQuizzesId(requestParameters: PatchApiQuizzesIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Quiz>;
 
     /**
      * Update a Question
@@ -210,12 +210,12 @@ export interface QuizzesApiInterface {
      * @throws {RequiredError}
      * @memberof QuizzesApiInterface
      */
-    patchApiQuizzesQuizIdQuestionsIdRaw(requestParameters: PatchApiQuizzesQuizIdQuestionsIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MercuryEntitiesQuestion>>;
+    patchApiQuizzesQuizIdQuestionsIdRaw(requestParameters: PatchApiQuizzesQuizIdQuestionsIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Question>>;
 
     /**
      * Update a Question
      */
-    patchApiQuizzesQuizIdQuestionsId(requestParameters: PatchApiQuizzesQuizIdQuestionsIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MercuryEntitiesQuestion>;
+    patchApiQuizzesQuizIdQuestionsId(requestParameters: PatchApiQuizzesQuizIdQuestionsIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Question>;
 
     /**
      * Move a Question to a new position within the ordered questions list
@@ -226,12 +226,12 @@ export interface QuizzesApiInterface {
      * @throws {RequiredError}
      * @memberof QuizzesApiInterface
      */
-    patchApiQuizzesQuizIdQuestionsIdMoveRaw(requestParameters: PatchApiQuizzesQuizIdQuestionsIdMoveRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MercuryEntitiesMovedQuestion>>;
+    patchApiQuizzesQuizIdQuestionsIdMoveRaw(requestParameters: PatchApiQuizzesQuizIdQuestionsIdMoveRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MovedQuestion>>;
 
     /**
      * Move a Question to a new position within the ordered questions list
      */
-    patchApiQuizzesQuizIdQuestionsIdMove(requestParameters: PatchApiQuizzesQuizIdQuestionsIdMoveRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MercuryEntitiesMovedQuestion>;
+    patchApiQuizzesQuizIdQuestionsIdMove(requestParameters: PatchApiQuizzesQuizIdQuestionsIdMoveRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MovedQuestion>;
 
     /**
      * Create a new quiz
@@ -240,12 +240,12 @@ export interface QuizzesApiInterface {
      * @throws {RequiredError}
      * @memberof QuizzesApiInterface
      */
-    postApiQuizzesRaw(requestParameters: PostApiQuizzesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MercuryEntitiesQuiz>>;
+    postApiQuizzesRaw(requestParameters: PostApiQuizzesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Quiz>>;
 
     /**
      * Create a new quiz
      */
-    postApiQuizzes(requestParameters: PostApiQuizzesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MercuryEntitiesQuiz>;
+    postApiQuizzes(requestParameters: PostApiQuizzesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Quiz>;
 
     /**
      * Create a new question
@@ -255,12 +255,12 @@ export interface QuizzesApiInterface {
      * @throws {RequiredError}
      * @memberof QuizzesApiInterface
      */
-    postApiQuizzesQuizIdQuestionsRaw(requestParameters: PostApiQuizzesQuizIdQuestionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MercuryEntitiesQuestion>>;
+    postApiQuizzesQuizIdQuestionsRaw(requestParameters: PostApiQuizzesQuizIdQuestionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Question>>;
 
     /**
      * Create a new question
      */
-    postApiQuizzesQuizIdQuestions(requestParameters: PostApiQuizzesQuizIdQuestionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MercuryEntitiesQuestion>;
+    postApiQuizzesQuizIdQuestions(requestParameters: PostApiQuizzesQuizIdQuestionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Question>;
 
 }
 
@@ -342,7 +342,7 @@ export class QuizzesApi extends runtime.BaseAPI implements QuizzesApiInterface {
     /**
      * List all quizzes
      */
-    async getApiQuizzesRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<MercuryEntitiesQuiz>>> {
+    async getApiQuizzesRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Quiz>>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -358,13 +358,13 @@ export class QuizzesApi extends runtime.BaseAPI implements QuizzesApiInterface {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(MercuryEntitiesQuizFromJSON));
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(QuizFromJSON));
     }
 
     /**
      * List all quizzes
      */
-    async getApiQuizzes(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<MercuryEntitiesQuiz>> {
+    async getApiQuizzes(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<Quiz>> {
         const response = await this.getApiQuizzesRaw(initOverrides);
         return await response.value();
     }
@@ -372,7 +372,7 @@ export class QuizzesApi extends runtime.BaseAPI implements QuizzesApiInterface {
     /**
      * Show a quiz
      */
-    async getApiQuizzesIdRaw(requestParameters: GetApiQuizzesIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MercuryEntitiesQuiz>> {
+    async getApiQuizzesIdRaw(requestParameters: GetApiQuizzesIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Quiz>> {
         if (requestParameters.id === null || requestParameters.id === undefined) {
             throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling getApiQuizzesId.');
         }
@@ -392,13 +392,13 @@ export class QuizzesApi extends runtime.BaseAPI implements QuizzesApiInterface {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => MercuryEntitiesQuizFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => QuizFromJSON(jsonValue));
     }
 
     /**
      * Show a quiz
      */
-    async getApiQuizzesId(requestParameters: GetApiQuizzesIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MercuryEntitiesQuiz> {
+    async getApiQuizzesId(requestParameters: GetApiQuizzesIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Quiz> {
         const response = await this.getApiQuizzesIdRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -406,7 +406,7 @@ export class QuizzesApi extends runtime.BaseAPI implements QuizzesApiInterface {
     /**
      * List all questions belonging to a Quiz
      */
-    async getApiQuizzesQuizIdQuestionsRaw(requestParameters: GetApiQuizzesQuizIdQuestionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<MercuryEntitiesQuestion>>> {
+    async getApiQuizzesQuizIdQuestionsRaw(requestParameters: GetApiQuizzesQuizIdQuestionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Question>>> {
         if (requestParameters.quizId === null || requestParameters.quizId === undefined) {
             throw new runtime.RequiredError('quizId','Required parameter requestParameters.quizId was null or undefined when calling getApiQuizzesQuizIdQuestions.');
         }
@@ -426,13 +426,13 @@ export class QuizzesApi extends runtime.BaseAPI implements QuizzesApiInterface {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(MercuryEntitiesQuestionFromJSON));
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(QuestionFromJSON));
     }
 
     /**
      * List all questions belonging to a Quiz
      */
-    async getApiQuizzesQuizIdQuestions(requestParameters: GetApiQuizzesQuizIdQuestionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<MercuryEntitiesQuestion>> {
+    async getApiQuizzesQuizIdQuestions(requestParameters: GetApiQuizzesQuizIdQuestionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<Question>> {
         const response = await this.getApiQuizzesQuizIdQuestionsRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -440,7 +440,7 @@ export class QuizzesApi extends runtime.BaseAPI implements QuizzesApiInterface {
     /**
      * Show a Question
      */
-    async getApiQuizzesQuizIdQuestionsIdRaw(requestParameters: GetApiQuizzesQuizIdQuestionsIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MercuryEntitiesQuestion>> {
+    async getApiQuizzesQuizIdQuestionsIdRaw(requestParameters: GetApiQuizzesQuizIdQuestionsIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Question>> {
         if (requestParameters.quizId === null || requestParameters.quizId === undefined) {
             throw new runtime.RequiredError('quizId','Required parameter requestParameters.quizId was null or undefined when calling getApiQuizzesQuizIdQuestionsId.');
         }
@@ -464,13 +464,13 @@ export class QuizzesApi extends runtime.BaseAPI implements QuizzesApiInterface {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => MercuryEntitiesQuestionFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => QuestionFromJSON(jsonValue));
     }
 
     /**
      * Show a Question
      */
-    async getApiQuizzesQuizIdQuestionsId(requestParameters: GetApiQuizzesQuizIdQuestionsIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MercuryEntitiesQuestion> {
+    async getApiQuizzesQuizIdQuestionsId(requestParameters: GetApiQuizzesQuizIdQuestionsIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Question> {
         const response = await this.getApiQuizzesQuizIdQuestionsIdRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -478,7 +478,7 @@ export class QuizzesApi extends runtime.BaseAPI implements QuizzesApiInterface {
     /**
      * Update a quiz
      */
-    async patchApiQuizzesIdRaw(requestParameters: PatchApiQuizzesIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MercuryEntitiesQuiz>> {
+    async patchApiQuizzesIdRaw(requestParameters: PatchApiQuizzesIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Quiz>> {
         if (requestParameters.id === null || requestParameters.id === undefined) {
             throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling patchApiQuizzesId.');
         }
@@ -505,13 +505,13 @@ export class QuizzesApi extends runtime.BaseAPI implements QuizzesApiInterface {
             body: PatchApiQuizzesIdToJSON(requestParameters.patchApiQuizzesId),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => MercuryEntitiesQuizFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => QuizFromJSON(jsonValue));
     }
 
     /**
      * Update a quiz
      */
-    async patchApiQuizzesId(requestParameters: PatchApiQuizzesIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MercuryEntitiesQuiz> {
+    async patchApiQuizzesId(requestParameters: PatchApiQuizzesIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Quiz> {
         const response = await this.patchApiQuizzesIdRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -519,7 +519,7 @@ export class QuizzesApi extends runtime.BaseAPI implements QuizzesApiInterface {
     /**
      * Update a Question
      */
-    async patchApiQuizzesQuizIdQuestionsIdRaw(requestParameters: PatchApiQuizzesQuizIdQuestionsIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MercuryEntitiesQuestion>> {
+    async patchApiQuizzesQuizIdQuestionsIdRaw(requestParameters: PatchApiQuizzesQuizIdQuestionsIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Question>> {
         if (requestParameters.quizId === null || requestParameters.quizId === undefined) {
             throw new runtime.RequiredError('quizId','Required parameter requestParameters.quizId was null or undefined when calling patchApiQuizzesQuizIdQuestionsId.');
         }
@@ -550,13 +550,13 @@ export class QuizzesApi extends runtime.BaseAPI implements QuizzesApiInterface {
             body: PatchApiQuizzesQuizIdQuestionsIdToJSON(requestParameters.patchApiQuizzesQuizIdQuestionsId),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => MercuryEntitiesQuestionFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => QuestionFromJSON(jsonValue));
     }
 
     /**
      * Update a Question
      */
-    async patchApiQuizzesQuizIdQuestionsId(requestParameters: PatchApiQuizzesQuizIdQuestionsIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MercuryEntitiesQuestion> {
+    async patchApiQuizzesQuizIdQuestionsId(requestParameters: PatchApiQuizzesQuizIdQuestionsIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Question> {
         const response = await this.patchApiQuizzesQuizIdQuestionsIdRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -564,7 +564,7 @@ export class QuizzesApi extends runtime.BaseAPI implements QuizzesApiInterface {
     /**
      * Move a Question to a new position within the ordered questions list
      */
-    async patchApiQuizzesQuizIdQuestionsIdMoveRaw(requestParameters: PatchApiQuizzesQuizIdQuestionsIdMoveRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MercuryEntitiesMovedQuestion>> {
+    async patchApiQuizzesQuizIdQuestionsIdMoveRaw(requestParameters: PatchApiQuizzesQuizIdQuestionsIdMoveRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MovedQuestion>> {
         if (requestParameters.quizId === null || requestParameters.quizId === undefined) {
             throw new runtime.RequiredError('quizId','Required parameter requestParameters.quizId was null or undefined when calling patchApiQuizzesQuizIdQuestionsIdMove.');
         }
@@ -595,13 +595,13 @@ export class QuizzesApi extends runtime.BaseAPI implements QuizzesApiInterface {
             body: PatchApiQuizzesQuizIdQuestionsIdMoveToJSON(requestParameters.patchApiQuizzesQuizIdQuestionsIdMove),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => MercuryEntitiesMovedQuestionFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => MovedQuestionFromJSON(jsonValue));
     }
 
     /**
      * Move a Question to a new position within the ordered questions list
      */
-    async patchApiQuizzesQuizIdQuestionsIdMove(requestParameters: PatchApiQuizzesQuizIdQuestionsIdMoveRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MercuryEntitiesMovedQuestion> {
+    async patchApiQuizzesQuizIdQuestionsIdMove(requestParameters: PatchApiQuizzesQuizIdQuestionsIdMoveRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MovedQuestion> {
         const response = await this.patchApiQuizzesQuizIdQuestionsIdMoveRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -609,7 +609,7 @@ export class QuizzesApi extends runtime.BaseAPI implements QuizzesApiInterface {
     /**
      * Create a new quiz
      */
-    async postApiQuizzesRaw(requestParameters: PostApiQuizzesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MercuryEntitiesQuiz>> {
+    async postApiQuizzesRaw(requestParameters: PostApiQuizzesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Quiz>> {
         if (requestParameters.postApiQuizzes === null || requestParameters.postApiQuizzes === undefined) {
             throw new runtime.RequiredError('postApiQuizzes','Required parameter requestParameters.postApiQuizzes was null or undefined when calling postApiQuizzes.');
         }
@@ -632,13 +632,13 @@ export class QuizzesApi extends runtime.BaseAPI implements QuizzesApiInterface {
             body: PostApiQuizzesToJSON(requestParameters.postApiQuizzes),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => MercuryEntitiesQuizFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => QuizFromJSON(jsonValue));
     }
 
     /**
      * Create a new quiz
      */
-    async postApiQuizzes(requestParameters: PostApiQuizzesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MercuryEntitiesQuiz> {
+    async postApiQuizzes(requestParameters: PostApiQuizzesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Quiz> {
         const response = await this.postApiQuizzesRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -646,7 +646,7 @@ export class QuizzesApi extends runtime.BaseAPI implements QuizzesApiInterface {
     /**
      * Create a new question
      */
-    async postApiQuizzesQuizIdQuestionsRaw(requestParameters: PostApiQuizzesQuizIdQuestionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MercuryEntitiesQuestion>> {
+    async postApiQuizzesQuizIdQuestionsRaw(requestParameters: PostApiQuizzesQuizIdQuestionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Question>> {
         if (requestParameters.quizId === null || requestParameters.quizId === undefined) {
             throw new runtime.RequiredError('quizId','Required parameter requestParameters.quizId was null or undefined when calling postApiQuizzesQuizIdQuestions.');
         }
@@ -673,13 +673,13 @@ export class QuizzesApi extends runtime.BaseAPI implements QuizzesApiInterface {
             body: PostApiQuizzesQuizIdQuestionsToJSON(requestParameters.postApiQuizzesQuizIdQuestions),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => MercuryEntitiesQuestionFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => QuestionFromJSON(jsonValue));
     }
 
     /**
      * Create a new question
      */
-    async postApiQuizzesQuizIdQuestions(requestParameters: PostApiQuizzesQuizIdQuestionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MercuryEntitiesQuestion> {
+    async postApiQuizzesQuizIdQuestions(requestParameters: PostApiQuizzesQuizIdQuestionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Question> {
         const response = await this.postApiQuizzesQuizIdQuestionsRaw(requestParameters, initOverrides);
         return await response.value();
     }

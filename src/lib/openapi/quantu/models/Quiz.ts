@@ -14,76 +14,76 @@
 
 import { exists, mapValues } from '../runtime';
 /**
- * Mercury_Entities_User model
+ * Quiz model
  * @export
- * @interface MercuryEntitiesUser
+ * @interface Quiz
  */
-export interface MercuryEntitiesUser {
+export interface Quiz {
     /**
-     * 
+     * ID
      * @type {number}
-     * @memberof MercuryEntitiesUser
+     * @memberof Quiz
      */
     id: number;
     /**
-     * 
+     * Name
      * @type {string}
-     * @memberof MercuryEntitiesUser
+     * @memberof Quiz
      */
-    email: string;
+    name: string;
     /**
-     * 
+     * URI
      * @type {string}
-     * @memberof MercuryEntitiesUser
+     * @memberof Quiz
      */
-    username: string;
+    uri: string;
     /**
      * 
      * @type {Date}
-     * @memberof MercuryEntitiesUser
+     * @memberof Quiz
      */
     created_at: Date;
     /**
      * 
      * @type {Date}
-     * @memberof MercuryEntitiesUser
+     * @memberof Quiz
      */
     updated_at: Date;
 }
 
 /**
- * Check if a given object implements the MercuryEntitiesUser interface.
+ * Check if a given object implements the Quiz interface.
  */
-export function instanceOfMercuryEntitiesUser(value: object): boolean {
+export function instanceOfQuiz(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "id" in value;
-    isInstance = isInstance && "email" in value;
-    isInstance = isInstance && "username" in value;
+    isInstance = isInstance && "name" in value;
+    isInstance = isInstance && "uri" in value;
     isInstance = isInstance && "created_at" in value;
     isInstance = isInstance && "updated_at" in value;
 
     return isInstance;
 }
 
-export function MercuryEntitiesUserFromJSON(json: any): MercuryEntitiesUser {
-    return MercuryEntitiesUserFromJSONTyped(json, false);
+export function QuizFromJSON(json: any): Quiz {
+    return QuizFromJSONTyped(json, false);
 }
 
-export function MercuryEntitiesUserFromJSONTyped(json: any, ignoreDiscriminator: boolean): MercuryEntitiesUser {
+export function QuizFromJSONTyped(json: any, ignoreDiscriminator: boolean): Quiz {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
         'id': json['id'],
-        'email': json['email'],
-        'username': json['username'],
+        'name': json['name'],
+        'uri': json['uri'],
         'created_at': (new Date(json['created_at'])),
         'updated_at': (new Date(json['updated_at'])),
     };
 }
 
-export function MercuryEntitiesUserToJSON(value?: MercuryEntitiesUser | null): any {
+export function QuizToJSON(value?: Quiz | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -93,8 +93,8 @@ export function MercuryEntitiesUserToJSON(value?: MercuryEntitiesUser | null): a
     return {
         
         'id': value.id,
-        'email': value.email,
-        'username': value.username,
+        'name': value.name,
+        'uri': value.uri,
         'created_at': (value.created_at.toISOString()),
         'updated_at': (value.updated_at.toISOString()),
     };

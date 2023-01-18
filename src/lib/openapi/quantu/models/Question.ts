@@ -14,65 +14,75 @@
 
 import { exists, mapValues } from '../runtime';
 /**
- * Mercury_Entities_Question model
+ * Question model
  * @export
- * @interface MercuryEntitiesQuestion
+ * @interface Question
  */
-export interface MercuryEntitiesQuestion {
+export interface Question {
     /**
-     * 
+     * ID
      * @type {number}
-     * @memberof MercuryEntitiesQuestion
+     * @memberof Question
      */
     id: number;
     /**
-     * 
+     * Name
      * @type {string}
-     * @memberof MercuryEntitiesQuestion
+     * @memberof Question
      */
     name: string;
     /**
-     * 
+     * URI
      * @type {string}
-     * @memberof MercuryEntitiesQuestion
+     * @memberof Question
      */
     uri: string;
     /**
-     * 
+     * Type of Question
      * @type {string}
-     * @memberof MercuryEntitiesQuestion
+     * @memberof Question
      */
-    question_type: string;
+    question_type: QuestionQuestionTypeEnum;
     /**
-     * 
+     * Item Order
      * @type {number}
-     * @memberof MercuryEntitiesQuestion
+     * @memberof Question
      */
     item_order: number;
     /**
-     * 
+     * Data
      * @type {object}
-     * @memberof MercuryEntitiesQuestion
+     * @memberof Question
      */
     data: object;
     /**
      * 
      * @type {Date}
-     * @memberof MercuryEntitiesQuestion
+     * @memberof Question
      */
     created_at: Date;
     /**
      * 
      * @type {Date}
-     * @memberof MercuryEntitiesQuestion
+     * @memberof Question
      */
     updated_at: Date;
 }
 
+
 /**
- * Check if a given object implements the MercuryEntitiesQuestion interface.
+ * @export
  */
-export function instanceOfMercuryEntitiesQuestion(value: object): boolean {
+export const QuestionQuestionTypeEnum = {
+    FlashCard: 'flash_card'
+} as const;
+export type QuestionQuestionTypeEnum = typeof QuestionQuestionTypeEnum[keyof typeof QuestionQuestionTypeEnum];
+
+
+/**
+ * Check if a given object implements the Question interface.
+ */
+export function instanceOfQuestion(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "id" in value;
     isInstance = isInstance && "name" in value;
@@ -86,11 +96,11 @@ export function instanceOfMercuryEntitiesQuestion(value: object): boolean {
     return isInstance;
 }
 
-export function MercuryEntitiesQuestionFromJSON(json: any): MercuryEntitiesQuestion {
-    return MercuryEntitiesQuestionFromJSONTyped(json, false);
+export function QuestionFromJSON(json: any): Question {
+    return QuestionFromJSONTyped(json, false);
 }
 
-export function MercuryEntitiesQuestionFromJSONTyped(json: any, ignoreDiscriminator: boolean): MercuryEntitiesQuestion {
+export function QuestionFromJSONTyped(json: any, ignoreDiscriminator: boolean): Question {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -107,7 +117,7 @@ export function MercuryEntitiesQuestionFromJSONTyped(json: any, ignoreDiscrimina
     };
 }
 
-export function MercuryEntitiesQuestionToJSON(value?: MercuryEntitiesQuestion | null): any {
+export function QuestionToJSON(value?: Question | null): any {
     if (value === undefined) {
         return undefined;
     }

@@ -1,5 +1,4 @@
-import type { PatchApiQuizzesId, PostApiQuizzes } from '$lib/openapi/quantu';
-import type { Quiz } from '$lib/stores/quizzes';
+import type { PatchApiQuizzesId, PostApiQuizzes, Quiz } from '$lib/openapi/quantu';
 import { convertToUrlSafe } from '$lib/util';
 import { getIndexedDB, type LocalSchema } from './IndexedDB';
 

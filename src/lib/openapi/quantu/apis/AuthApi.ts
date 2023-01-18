@@ -15,20 +15,20 @@
 
 import * as runtime from '../runtime';
 import type {
-  MercuryEntitiesErrorResponse,
-  MercuryEntitiesToken,
-  MercuryEntitiesUser,
+  ErrorResponse,
   PostApiAuthLogin,
+  Token,
+  User,
 } from '../models';
 import {
-    MercuryEntitiesErrorResponseFromJSON,
-    MercuryEntitiesErrorResponseToJSON,
-    MercuryEntitiesTokenFromJSON,
-    MercuryEntitiesTokenToJSON,
-    MercuryEntitiesUserFromJSON,
-    MercuryEntitiesUserToJSON,
+    ErrorResponseFromJSON,
+    ErrorResponseToJSON,
     PostApiAuthLoginFromJSON,
     PostApiAuthLoginToJSON,
+    TokenFromJSON,
+    TokenToJSON,
+    UserFromJSON,
+    UserToJSON,
 } from '../models';
 
 export interface PostApiAuthLoginRequest {
@@ -48,12 +48,12 @@ export interface AuthApiInterface {
      * @throws {RequiredError}
      * @memberof AuthApiInterface
      */
-    getApiAuthMeRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MercuryEntitiesUser>>;
+    getApiAuthMeRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<User>>;
 
     /**
      * get the current user
      */
-    getApiAuthMe(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MercuryEntitiesUser>;
+    getApiAuthMe(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<User>;
 
     /**
      * login to fetch a new JWT token
@@ -62,12 +62,12 @@ export interface AuthApiInterface {
      * @throws {RequiredError}
      * @memberof AuthApiInterface
      */
-    postApiAuthLoginRaw(requestParameters: PostApiAuthLoginRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MercuryEntitiesToken>>;
+    postApiAuthLoginRaw(requestParameters: PostApiAuthLoginRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Token>>;
 
     /**
      * login to fetch a new JWT token
      */
-    postApiAuthLogin(requestParameters: PostApiAuthLoginRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MercuryEntitiesToken>;
+    postApiAuthLogin(requestParameters: PostApiAuthLoginRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Token>;
 
 }
 
@@ -79,7 +79,7 @@ export class AuthApi extends runtime.BaseAPI implements AuthApiInterface {
     /**
      * get the current user
      */
-    async getApiAuthMeRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MercuryEntitiesUser>> {
+    async getApiAuthMeRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<User>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -95,13 +95,13 @@ export class AuthApi extends runtime.BaseAPI implements AuthApiInterface {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => MercuryEntitiesUserFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => UserFromJSON(jsonValue));
     }
 
     /**
      * get the current user
      */
-    async getApiAuthMe(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MercuryEntitiesUser> {
+    async getApiAuthMe(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<User> {
         const response = await this.getApiAuthMeRaw(initOverrides);
         return await response.value();
     }
@@ -109,7 +109,7 @@ export class AuthApi extends runtime.BaseAPI implements AuthApiInterface {
     /**
      * login to fetch a new JWT token
      */
-    async postApiAuthLoginRaw(requestParameters: PostApiAuthLoginRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MercuryEntitiesToken>> {
+    async postApiAuthLoginRaw(requestParameters: PostApiAuthLoginRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Token>> {
         if (requestParameters.postApiAuthLogin === null || requestParameters.postApiAuthLogin === undefined) {
             throw new runtime.RequiredError('postApiAuthLogin','Required parameter requestParameters.postApiAuthLogin was null or undefined when calling postApiAuthLogin.');
         }
@@ -132,13 +132,13 @@ export class AuthApi extends runtime.BaseAPI implements AuthApiInterface {
             body: PostApiAuthLoginToJSON(requestParameters.postApiAuthLogin),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => MercuryEntitiesTokenFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => TokenFromJSON(jsonValue));
     }
 
     /**
      * login to fetch a new JWT token
      */
-    async postApiAuthLogin(requestParameters: PostApiAuthLoginRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MercuryEntitiesToken> {
+    async postApiAuthLogin(requestParameters: PostApiAuthLoginRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Token> {
         const response = await this.postApiAuthLoginRaw(requestParameters, initOverrides);
         return await response.value();
     }

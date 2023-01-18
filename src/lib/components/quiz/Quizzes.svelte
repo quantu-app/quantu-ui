@@ -3,9 +3,8 @@
 <script lang="ts">
 	import MdEdit from 'svelte-icons/md/MdEdit.svelte';
 	import MdDelete from 'svelte-icons/md/MdDelete.svelte';
-	import Modal from '../Modal.svelte';
 	import CreateQuiz from './CreateQuiz.svelte';
-	import type { Quiz } from '$lib/stores/quizzes';
+	import type { Quiz } from '$lib/openapi/quantu/models/Quiz';
 
 	export let quizzes: Quiz[];
 
@@ -28,17 +27,9 @@
 			quizzes = [...quizzes].sort(sortBy);
 		};
 	}
-
-	let createQuizOpen = false;
-	function onOpenCreateQuiz() {
-		createQuizOpen = true;
-	}
-	function onCloseCreateQuiz() {
-		createQuizOpen = false;
-	}
 </script>
 
-<button class="btn primary" on:click={onOpenCreateQuiz}>Create Quiz</button>
+<CreateQuiz />
 
 <table class="table-auto w-full">
 	<thead>
@@ -75,7 +66,3 @@
 		{/each}
 	</tbody>
 </table>
-
-<Modal bind:open={createQuizOpen}>
-	<CreateQuiz onCreate={onCloseCreateQuiz} />
-</Modal>

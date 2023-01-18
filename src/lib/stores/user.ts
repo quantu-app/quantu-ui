@@ -3,16 +3,9 @@ import { localstorageWritable } from 'svelte-localstorage-writable';
 import { isOnline } from './online';
 import EventEmitter from 'eventemitter3';
 import { authApi, configuration, defaultConfiguration } from '$lib/openapi';
-import {
-	Configuration,
-	type MercuryEntitiesToken,
-	type MercuryEntitiesUser
-} from '$lib/openapi/quantu';
+import { Configuration, type Token, type User } from '$lib/openapi/quantu';
 
-export type User = MercuryEntitiesUser;
-export type JWT = MercuryEntitiesToken;
-
-const jwtWritable = localstorageWritable<JWT | null>('jwt', null);
+const jwtWritable = localstorageWritable<Token | null>('jwt', null);
 const userWritable = localstorageWritable<User | null>('user', null, {
 	fromJSON(json) {
 		return {
@@ -24,7 +17,7 @@ const userWritable = localstorageWritable<User | null>('user', null, {
 });
 export const user = derived(userWritable, (state) => state);
 
-function setJWT(jwt: JWT) {
+function setJWT(jwt: Token) {
 	jwtWritable.set(jwt);
 	configuration.config = new Configuration({ ...defaultConfiguration, apiKey: jwt.token });
 }
