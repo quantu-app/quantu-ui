@@ -6,8 +6,9 @@
 	import CreateQuiz from './CreateQuiz.svelte';
 	import type { Quiz } from '$lib/openapi/quantu/models/Quiz';
 	import SortDirection from '../SortDirection.svelte';
+	import type { LocalSchema } from '$lib/idb/IndexedDB';
 
-	export let quizzes: Quiz[];
+	export let quizzes: LocalSchema<Quiz>[];
 
 	let sort: [key: keyof Quiz, order: number] | undefined;
 
@@ -52,7 +53,7 @@
 		</tr>
 	</thead>
 	<tbody>
-		{#each quizzes as quiz (quiz.id)}
+		{#each quizzes as quiz (quiz.local_id)}
 			<tr>
 				<td class="border-b border-slate-100 dark:border-slate-700 p-1">{quiz.name}</td>
 				<td class="border-b border-slate-100 dark:border-slate-700 p-1"

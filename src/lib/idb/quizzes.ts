@@ -1,6 +1,5 @@
 import type { PatchApiQuizzesId, PostApiQuizzes, Quiz } from '$lib/openapi/quantu';
 import { convertToUrlSafe } from '$lib/util';
-import { v4 } from 'uuid';
 import { getIndexedDB, type LocalSchema } from './IndexedDB';
 
 export async function idbGetQuizzes(userId: number) {
