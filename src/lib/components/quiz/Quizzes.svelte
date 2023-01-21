@@ -5,6 +5,7 @@
 	import MdDelete from 'svelte-icons/md/MdDelete.svelte';
 	import CreateQuiz from './CreateQuiz.svelte';
 	import type { Quiz } from '$lib/openapi/quantu/models/Quiz';
+	import SortDirection from '../SortDirection.svelte';
 
 	export let quizzes: Quiz[];
 
@@ -37,12 +38,15 @@
 			<th
 				class="border-b dark:border-slate-600 cursor-pointer select-none text-left p-1"
 				on:click={createSort('name')}
-				>Name {#if sort && sort[0] === 'name'}{#if sort[1] === 1}v{:else}^{/if}{/if}</th
-			>
+				>Name <SortDirection sort={sort && sort[0] === 'name'} asc={sort && sort[1] === 1} />
+			</th>
 			<th
 				class="border-b dark:border-slate-600 cursor-pointer select-none text-left p-1"
 				on:click={createSort('created_at')}
-				>Created At {#if sort && sort[0] === 'created_at'}{#if sort[1] === 1}v{:else}^{/if}{/if}</th
+				>Created At <SortDirection
+					sort={sort && sort[0] === 'created_at'}
+					asc={sort && sort[1] === 1}
+				/></th
 			>
 			<th class="border-b dark:border-slate-600 cursor-pointer select-none text-left p-1" />
 		</tr>

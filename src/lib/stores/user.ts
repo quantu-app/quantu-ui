@@ -17,6 +17,10 @@ const userWritable = localstorageWritable<User | null>('user', null, {
 });
 export const user = derived(userWritable, (state) => state);
 
+export function getUser() {
+	return get(user);
+}
+
 function setJWT(jwt: Token) {
 	jwtWritable.set(jwt);
 	configuration.config = new Configuration({ ...defaultConfiguration, apiKey: jwt.token });

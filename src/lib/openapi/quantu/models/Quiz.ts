@@ -26,6 +26,12 @@ export interface Quiz {
      */
     id: number;
     /**
+     * User Id
+     * @type {number}
+     * @memberof Quiz
+     */
+    user_id: number;
+    /**
      * Name
      * @type {string}
      * @memberof Quiz
@@ -57,6 +63,7 @@ export interface Quiz {
 export function instanceOfQuiz(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "id" in value;
+    isInstance = isInstance && "user_id" in value;
     isInstance = isInstance && "name" in value;
     isInstance = isInstance && "uri" in value;
     isInstance = isInstance && "created_at" in value;
@@ -76,6 +83,7 @@ export function QuizFromJSONTyped(json: any, ignoreDiscriminator: boolean): Quiz
     return {
         
         'id': json['id'],
+        'user_id': json['user_id'],
         'name': json['name'],
         'uri': json['uri'],
         'created_at': (new Date(json['created_at'])),
@@ -93,6 +101,7 @@ export function QuizToJSON(value?: Quiz | null): any {
     return {
         
         'id': value.id,
+        'user_id': value.user_id,
         'name': value.name,
         'uri': value.uri,
         'created_at': (value.created_at.toISOString()),

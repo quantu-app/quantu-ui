@@ -14,7 +14,7 @@
 
 import { exists, mapValues } from '../runtime';
 /**
- * login to fetch a new JWT token
+ * Login and return a new JWT access token
  * @export
  * @interface PostApiAuthLogin
  */

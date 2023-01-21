@@ -1,85 +1,129 @@
 import type { LocalSchema } from '$lib/idb/IndexedDB';
 import { derived, writable } from 'svelte/store';
-import { isOnline } from './online';
+import { isOnline, onlineEmitter } from './online';
 import {
 	idbCreateQuiz,
 	idbDeleteQuiz,
 	idbGetQuizzes,
-	idbSyncWithServer,
+	idbSetFromRemoteQuiz,
 	idbUpdateQuiz
 } from '$lib/idb/quizzes';
-import { waitForUser } from './user';
+import { waitForUser, getUser } from './user';
 import type { Quiz, PostApiQuizzes } from '$lib/openapi/quantu';
 import { quizApi } from '$lib/openapi';
 
-export type QuizStore = { [local_id: number]: LocalSchema<Quiz> };
+export type QuizStore = { [localId: string]: LocalSchema<Quiz> };
 
 const quizzesByIdWritable = writable<QuizStore>({});
 export const quizzes = derived(quizzesByIdWritable, (state) => Object.values(state));
 
 export async function createQuiz(data: PostApiQuizzes) {
+	const userId = getUser()?.id as number;
 	let serverQuiz: Partial<Quiz> = {};
 	if (isOnline()) {
 		serverQuiz = await quizApi.postApiQuizzes({ postApiQuizzes: data });
 	}
-	const localQuiz = await idbCreateQuiz({ ...data, ...serverQuiz });
+	const localQuiz = await idbCreateQuiz(userId, { ...data, ...serverQuiz });
 	quizzesByIdWritable.update((state) => ({ ...state, [localQuiz.local_id]: localQuiz }));
 	return localQuiz;
 }
 
-waitForUser().then(async (_user) => {
-	const localQuizzes = await idbGetQuizzes();
+async function syncQuizzes(userId: number) {
+	const localQuizzes = await idbGetQuizzes(userId);
+	const localQuizzesByLocalId: QuizStore = {};
+	const localQuizzesById: QuizStore = {};
 	const localOnlyQuizzes: LocalSchema<Quiz>[] = [];
-	const localServerQuizzes: LocalSchema<Quiz>[] = [];
-	quizzesByIdWritable.update((state) =>
-		localQuizzes.reduce(
-			(state, localQuiz) => {
-				if (localQuiz.id === 0) {
-					localOnlyQuizzes.push(localQuiz);
-				} else {
-					localServerQuizzes.push(localQuiz);
-				}
-				state[localQuiz.local_id] = localQuiz;
-				return state;
-			},
-			{ ...state }
-		)
-	);
+
+	for (const localQuiz of localQuizzes) {
+		if (localQuiz.id === 0) {
+			localOnlyQuizzes.push(localQuiz);
+		} else {
+			localQuizzesById[localQuiz.id] = localQuiz;
+		}
+		if (localQuiz.local_deleted === 0) {
+			localQuizzesByLocalId[localQuiz.local_id] = localQuiz;
+		}
+	}
+	quizzesByIdWritable.update((state) => ({ ...state, ...localQuizzesByLocalId }));
+
 	if (isOnline()) {
 		const apiQuizzes = await quizApi.getApiQuizzes();
-		const apiQuizSet = apiQuizzes.reduce((acc, quiz) => {
-			acc.add(quiz.id);
-			return acc;
-		}, new Set<number>());
-		const quizzes = await Promise.all(
-			apiQuizzes.map(idbSyncWithServer).concat(
-				localOnlyQuizzes.map(async (localQuiz) => {
-					const quiz = {
-						...localQuiz,
-						...(await quizApi.postApiQuizzes({ postApiQuizzes: localQuiz }))
-					};
-					await idbUpdateQuiz(quiz.local_id, quiz);
-					return quiz;
-				})
-			)
-		);
-		const idbDeletes: Promise<void>[] = [];
-		quizzesByIdWritable.update((state) => {
-			state = quizzes.reduce(
-				(state, localQuiz) => {
-					state[localQuiz.local_id] = localQuiz;
-					return state;
-				},
-				{ ...state }
-			);
-			for (const localServerQuiz of localServerQuizzes) {
-				if (!apiQuizSet.has(localServerQuiz.id)) {
-					delete state[localServerQuiz.local_id];
-					idbDeletes.push(idbDeleteQuiz(localServerQuiz.local_id));
+		const apiQuizzesByLocalId: QuizStore = {};
+		const deletedQuizzesId: number[] = [];
+
+		const tasks: Promise<void>[] = [];
+		for (const apiQuiz of apiQuizzes) {
+			const localQuiz = localQuizzesById[apiQuiz.id];
+			if (localQuiz) {
+				if (localQuiz.updated_at > apiQuiz.updated_at) {
+					if (localQuiz.local_deleted === 1) {
+						// delete remote and local quiz
+						tasks.push(
+							quizApi
+								.deleteApiQuizzesId({ id: apiQuiz.id })
+								.then(() => idbDeleteQuiz(localQuiz.local_id))
+								.then(() => {
+									deletedQuizzesId.push(localQuiz.local_id);
+								})
+						);
+					} else {
+						// update api quiz with local
+						tasks.push(
+							quizApi
+								.patchApiQuizzesId({
+									id: apiQuiz.id,
+									patchApiQuizzesId: { ...apiQuiz, ...localQuiz }
+								})
+								.then((apiUpdatedQuiz) => {
+									apiQuizzesByLocalId[localQuiz.id] = { ...localQuiz, ...apiUpdatedQuiz };
+								})
+						);
+					}
+				} else if (localQuiz.updated_at < apiQuiz.updated_at) {
+					// update local with remote
+					tasks.push(
+						idbUpdateQuiz(userId, localQuiz.local_id, { ...localQuiz, ...apiQuiz }).then(
+							(updatedLocalQuiz) => {
+								apiQuizzesByLocalId[updatedLocalQuiz.local_id] = updatedLocalQuiz;
+							}
+						)
+					);
+				} else {
+					// local and remote in sync
+					apiQuizzesByLocalId[localQuiz.local_id] = { ...localQuiz, ...apiQuiz };
 				}
+			} else {
+				// add remote to local
+				tasks.push(
+					idbCreateQuiz(userId, apiQuiz).then((localQuiz) => {
+						apiQuizzesByLocalId[localQuiz.local_id] = localQuiz;
+					})
+				);
+			}
+		}
+		for (const localQuiz of localOnlyQuizzes) {
+			tasks.push(
+				quizApi
+					.postApiQuizzes({ postApiQuizzes: localQuiz })
+					.then((apiQuiz) => idbSetFromRemoteQuiz(userId, localQuiz.local_id, apiQuiz))
+					.then((updatedLocalQuiz) => {
+						apiQuizzesByLocalId[updatedLocalQuiz.local_id] = updatedLocalQuiz;
+					})
+			);
+		}
+		await Promise.all(tasks);
+		quizzesByIdWritable.update((state) => {
+			state = { ...state, ...apiQuizzesByLocalId };
+			for (const localId of deletedQuizzesId) {
+				delete state[localId];
 			}
 			return state;
 		});
-		await Promise.all(idbDeletes);
 	}
+}
+
+onlineEmitter.on('online', async () => {
+	const user = await waitForUser();
+	syncQuizzes(user.id);
 });
+waitForUser().then((user) => syncQuizzes(user.id));

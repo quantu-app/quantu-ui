@@ -26,17 +26,29 @@ export interface Question {
      */
     id: number;
     /**
+     * User Id
+     * @type {number}
+     * @memberof Question
+     */
+    user_id: number;
+    /**
      * Name
      * @type {string}
      * @memberof Question
      */
-    name: string;
+    name?: string;
     /**
      * URI
      * @type {string}
      * @memberof Question
      */
-    uri: string;
+    uri?: string;
+    /**
+     * Quiz Id
+     * @type {number}
+     * @memberof Question
+     */
+    quiz_id: number;
     /**
      * Type of Question
      * @type {string}
@@ -85,8 +97,8 @@ export type QuestionQuestionTypeEnum = typeof QuestionQuestionTypeEnum[keyof typ
 export function instanceOfQuestion(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "id" in value;
-    isInstance = isInstance && "name" in value;
-    isInstance = isInstance && "uri" in value;
+    isInstance = isInstance && "user_id" in value;
+    isInstance = isInstance && "quiz_id" in value;
     isInstance = isInstance && "question_type" in value;
     isInstance = isInstance && "item_order" in value;
     isInstance = isInstance && "data" in value;
@@ -107,8 +119,10 @@ export function QuestionFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
     return {
         
         'id': json['id'],
-        'name': json['name'],
-        'uri': json['uri'],
+        'user_id': json['user_id'],
+        'name': !exists(json, 'name') ? undefined : json['name'],
+        'uri': !exists(json, 'uri') ? undefined : json['uri'],
+        'quiz_id': json['quiz_id'],
         'question_type': json['question_type'],
         'item_order': json['item_order'],
         'data': json['data'],
@@ -127,8 +141,10 @@ export function QuestionToJSON(value?: Question | null): any {
     return {
         
         'id': value.id,
+        'user_id': value.user_id,
         'name': value.name,
         'uri': value.uri,
+        'quiz_id': value.quiz_id,
         'question_type': value.question_type,
         'item_order': value.item_order,
         'data': value.data,

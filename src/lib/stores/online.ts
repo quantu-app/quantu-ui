@@ -1,7 +1,7 @@
 import { EventEmitter } from 'eventemitter3';
 import { derived, get, writable } from 'svelte/store';
 
-const onlineEmitter = new EventEmitter<{ online: () => void; offline: () => void }>();
+export const onlineEmitter = new EventEmitter<{ online: () => void; offline: () => void }>();
 
 const onlineWritable = writable(typeof navigator === 'object' ? navigator.onLine : false);
 export const online = derived(onlineWritable, (online) => online);

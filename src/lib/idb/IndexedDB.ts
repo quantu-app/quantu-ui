@@ -1,18 +1,31 @@
 import { type IDBPDatabase, type DBSchema, openDB, type OpenDBCallbacks } from 'idb';
 import EventEmitter from 'eventemitter3';
-import type { Quiz } from '$lib/openapi/quantu';
+import type { Question, Quiz } from '$lib/openapi/quantu';
 
 const DATABASE_NAME = 'quantu';
 const DATABASE_VERSION = 1;
 const DATABASE_OPTIONS: OpenDBCallbacks<IndexedDBSchema> = {
-	upgrade(db) {
-		const quizStore = db.createObjectStore('quizzes', {
-			keyPath: 'local_id',
-			autoIncrement: true
-		});
-		quizStore.createIndex('id', 'id');
-		quizStore.createIndex('local_id', 'local_id');
-		quizStore.createIndex('local_deleted', 'local_deleted');
+	upgrade(db, _oldVersion, newVersion) {
+		if (newVersion === 1) {
+			const quizStore = db.createObjectStore('quizzes', {
+				keyPath: 'local_id',
+				autoIncrement: true
+			});
+			quizStore.createIndex('id', 'id');
+			quizStore.createIndex('user_id', 'user_id');
+			quizStore.createIndex('local_id', 'local_id');
+			quizStore.createIndex('local_deleted', 'local_deleted');
+
+			const questionStore = db.createObjectStore('questions', {
+				keyPath: 'local_id',
+				autoIncrement: true
+			});
+			questionStore.createIndex('id', 'id');
+			questionStore.createIndex('user_id', 'user_id');
+			questionStore.createIndex('quiz_id', 'quiz_id');
+			questionStore.createIndex('local_id', 'local_id');
+			questionStore.createIndex('local_deleted', 'local_deleted');
+		}
 	}
 };
 
@@ -23,6 +36,17 @@ export interface IndexedDBSchema extends DBSchema {
 		value: LocalSchema<Quiz>;
 		key: number;
 		indexes: { id: number; user_id: number; local_id: number; local_deleted: number };
+	};
+	questions: {
+		value: LocalSchema<Question>;
+		key: number;
+		indexes: {
+			id: number;
+			user_id: number;
+			quiz_id: number;
+			local_id: number;
+			local_deleted: number;
+		};
 	};
 }
 

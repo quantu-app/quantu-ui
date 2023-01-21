@@ -1,71 +1,78 @@
 import type { PatchApiQuizzesId, PostApiQuizzes, Quiz } from '$lib/openapi/quantu';
 import { convertToUrlSafe } from '$lib/util';
+import { v4 } from 'uuid';
 import { getIndexedDB, type LocalSchema } from './IndexedDB';
 
-export async function idbGetQuizzes() {
+export async function idbGetQuizzes(userId: number) {
 	const db = await getIndexedDB();
-	const quizzes = await db.getAllFromIndex('quizzes', 'local_deleted', 0);
+	const quizzes = await db.getAllFromIndex('quizzes', 'user_id', userId);
 	return quizzes;
 }
 
-export async function idbGetQuizByLocalUUID(local_id: number) {
+export async function idbGetQuizByLocalId(localId: number) {
 	const db = await getIndexedDB();
-	const quiz = await db.get('quizzes', local_id);
+	const quiz = await db.get('quizzes', localId);
 	return quiz;
 }
 
-export async function idbCreateQuiz(data: PostApiQuizzes & Partial<Quiz>) {
+export async function idbCreateQuiz(userId: number, data: PostApiQuizzes & Partial<Quiz>) {
 	const db = await getIndexedDB();
-	const quiz = {
-		...createEmptyQuiz(),
+	const localQuiz = {
+		...createEmptyQuiz(userId),
 		...data,
 		uri: convertToUrlSafe(data.name)
 	};
-	const local_id = await db.put('quizzes', quiz);
-	return { ...quiz, local_id };
+	const localId = await db.put('quizzes', localQuiz);
+	return { ...localQuiz, local_id: localId };
 }
 
-export async function idbUpdateQuiz(local_id: number, data: PatchApiQuizzesId & Partial<Quiz>) {
+export async function idbUpdateQuiz(
+	userId: number,
+	localId: number,
+	data: PatchApiQuizzesId & Partial<Quiz>
+) {
 	const db = await getIndexedDB();
-	const quiz = (await db.get('quizzes', local_id)) || createEmptyQuiz();
+	const localQuiz = (await db.get('quizzes', localId)) || createEmptyQuiz(userId);
 	const updatedQuiz = {
-		...quiz,
+		...localQuiz,
 		...data,
-		uri: data.name ? convertToUrlSafe(data.name) : quiz.uri,
+		local_id: localId,
+		uri: data.name ? convertToUrlSafe(data.name) : localQuiz.uri,
 		updated_at: new Date()
 	};
-	await db.put('quizzes', updatedQuiz, local_id);
+	await db.put('quizzes', updatedQuiz, localId);
 	return updatedQuiz;
 }
 
-export async function idbDeleteQuiz(local_id: number) {
+export async function idbSetFromRemoteQuiz(userId: number, localId: number, quiz: Quiz) {
 	const db = await getIndexedDB();
-	const quiz = (await db.get('quizzes', local_id)) || createEmptyQuiz();
-	const deletedQuiz = { ...quiz, local_deleted: 1 };
-	await db.put('quizzes', deletedQuiz, local_id);
+	const localQuiz = (await db.get('quizzes', localId)) || createEmptyQuiz(userId);
+	const updatedLocalQuiz = {
+		...localQuiz,
+		...quiz,
+		local_id: localId
+	};
+	await db.put('quizzes', updatedLocalQuiz);
+	return updatedLocalQuiz;
 }
 
-export async function idbSyncWithServer(serverQuiz: Quiz) {
+export async function idbMarkQuizAsDeleted(userId: number, localId: number) {
 	const db = await getIndexedDB();
-	const localQuiz = await db.getFromIndex('quizzes', 'id', serverQuiz.id);
-	let quiz: LocalSchema<Quiz>;
-	if (localQuiz) {
-		if (localQuiz.updated_at > serverQuiz.updated_at) {
-			quiz = { ...serverQuiz, ...localQuiz };
-		} else {
-			quiz = { ...localQuiz, ...serverQuiz };
-		}
-	} else {
-		quiz = { ...serverQuiz, local_deleted: 0 } as LocalSchema<Quiz>;
-	}
-	const local_id = await db.put('quizzes', quiz);
-	return { ...quiz, local_id };
+	const quiz = (await db.get('quizzes', localId)) || createEmptyQuiz(userId);
+	const deletedQuiz = { ...quiz, local_id: localId, updated_at: new Date(), local_deleted: 1 };
+	await db.put('quizzes', deletedQuiz);
 }
 
-function createEmptyQuiz() {
+export async function idbDeleteQuiz(localId: number) {
+	const db = await getIndexedDB();
+	await db.delete('quizzes', localId);
+}
+
+function createEmptyQuiz(userId: number) {
 	return {
 		id: 0,
 		local_deleted: 0,
+		user_id: userId,
 		name: '',
 		uri: '',
 		created_at: new Date(),

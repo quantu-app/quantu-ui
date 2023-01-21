@@ -56,7 +56,7 @@ export interface AuthApiInterface {
     getApiAuthMe(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<User>;
 
     /**
-     * login to fetch a new JWT token
+     * Login and return a new JWT access token
      * @param {PostApiAuthLogin} postApiAuthLogin 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -65,7 +65,7 @@ export interface AuthApiInterface {
     postApiAuthLoginRaw(requestParameters: PostApiAuthLoginRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Token>>;
 
     /**
-     * login to fetch a new JWT token
+     * Login and return a new JWT access token
      */
     postApiAuthLogin(requestParameters: PostApiAuthLoginRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Token>;
 
@@ -107,7 +107,7 @@ export class AuthApi extends runtime.BaseAPI implements AuthApiInterface {
     }
 
     /**
-     * login to fetch a new JWT token
+     * Login and return a new JWT access token
      */
     async postApiAuthLoginRaw(requestParameters: PostApiAuthLoginRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Token>> {
         if (requestParameters.postApiAuthLogin === null || requestParameters.postApiAuthLogin === undefined) {
@@ -136,7 +136,7 @@ export class AuthApi extends runtime.BaseAPI implements AuthApiInterface {
     }
 
     /**
-     * login to fetch a new JWT token
+     * Login and return a new JWT access token
      */
     async postApiAuthLogin(requestParameters: PostApiAuthLoginRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Token> {
         const response = await this.postApiAuthLoginRaw(requestParameters, initOverrides);
