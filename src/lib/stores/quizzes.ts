@@ -49,7 +49,7 @@ async function syncQuizzes(userId: number) {
 	if (isOnline()) {
 		const apiQuizzes = await quizApi.getApiQuizzes();
 		const apiQuizzesByLocalId: QuizStore = {};
-		const deletedQuizzesLocalIds: number[] = [];
+		const deletedQuizzesLocalIds = new Set<number>();
 
 		const tasks: Promise<void>[] = [];
 		for (const apiQuiz of apiQuizzes) {
@@ -63,7 +63,7 @@ async function syncQuizzes(userId: number) {
 								.deleteApiQuizzesId({ id: apiQuiz.id })
 								.then(() => idbDeleteQuiz(localQuiz.local_id))
 								.then(() => {
-									deletedQuizzesLocalIds.push(localQuiz.local_id);
+									deletedQuizzesLocalIds.add(localQuiz.local_id);
 								})
 						);
 					} else {
@@ -113,12 +113,12 @@ async function syncQuizzes(userId: number) {
 		}
 		await Promise.all(tasks);
 		await Promise.all(
-			Object.values(localQuizzesById).map((localQuiz) => {
+			Object.values(localQuizzesById).map(async (localQuiz) => {
 				const apiQuiz = apiQuizzesByLocalId[localQuiz.local_id];
 				if (!apiQuiz) {
-					deletedQuizzesLocalIds.push(localQuiz.local_id);
+					deletedQuizzesLocalIds.add(localQuiz.local_id);
+					await idbDeleteQuiz(localQuiz.local_id);
 				}
-				return idbDeleteQuiz(localQuiz.local_id);
 			})
 		);
 		quizzesByIdWritable.update((state) => {
