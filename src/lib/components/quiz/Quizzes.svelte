@@ -49,24 +49,15 @@
 					asc={sort && sort[1] === 1}
 				/></th
 			>
-			<th class="border-b dark:border-slate-600 cursor-pointer select-none text-left p-1" />
 		</tr>
 	</thead>
 	<tbody>
 		{#each quizzes as quiz (quiz.local_id)}
-			<tr>
+			<tr class="hover:bg-gray-200 cursor-pointer">
 				<td class="border-b border-slate-100 dark:border-slate-700 p-1">{quiz.name}</td>
 				<td class="border-b border-slate-100 dark:border-slate-700 p-1"
 					>{quiz.created_at.toLocaleString()}</td
 				>
-				<td class="border-b border-slate-100 dark:border-slate-700 p-1">
-					<button class="btn icon primary"
-						><div class="inline-block w-6 h-6"><MdEdit /></div></button
-					>
-					<button class="btn icon danger"
-						><div class="inline-block w-6 h-6"><MdDelete /></div></button
-					>
-				</td>
 			</tr>
 		{/each}
 	</tbody>

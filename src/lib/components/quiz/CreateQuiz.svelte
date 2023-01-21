@@ -8,7 +8,8 @@
 	let name: string;
 
 	async function onSubmit() {
-		const quiz = await createQuiz({ name });
+		const _quiz = await createQuiz({ name });
+		name = '';
 		open = false;
 	}
 
