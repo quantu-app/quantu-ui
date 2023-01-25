@@ -11,39 +11,38 @@ const DATABASE_OPTIONS: OpenDBCallbacks<IndexedDBSchema> = {
 				keyPath: 'local_id',
 				autoIncrement: true
 			});
-			quizStore.createIndex('id', 'id');
 			quizStore.createIndex('user_id', 'user_id');
-			quizStore.createIndex('local_id', 'local_id');
-			quizStore.createIndex('local_deleted', 'local_deleted');
 
 			const questionStore = db.createObjectStore('questions', {
 				keyPath: 'local_id',
 				autoIncrement: true
 			});
-			questionStore.createIndex('id', 'id');
 			questionStore.createIndex('user_id', 'user_id');
-			questionStore.createIndex('quiz_id', 'quiz_id');
-			questionStore.createIndex('local_id', 'local_id');
-			questionStore.createIndex('local_deleted', 'local_deleted');
 		}
 	}
 };
 
-export type LocalSchema<T> = T & { local_deleted: number; local_id: number };
+export type LocalQuiz = Quiz & { local_deleted: number; local_id: number };
+export type LocalQuestion = Question & {
+	local_deleted: number;
+	local_id: number;
+	local_quiz_id: number;
+};
 
 export interface IndexedDBSchema extends DBSchema {
 	quizzes: {
-		value: LocalSchema<Quiz>;
+		value: LocalQuiz;
 		key: number;
 		indexes: { id: number; user_id: number; local_id: number; local_deleted: number };
 	};
 	questions: {
-		value: LocalSchema<Question>;
+		value: LocalQuestion;
 		key: number;
 		indexes: {
 			id: number;
 			user_id: number;
 			quiz_id: number;
+			local_quiz_id: number;
 			local_id: number;
 			local_deleted: number;
 		};

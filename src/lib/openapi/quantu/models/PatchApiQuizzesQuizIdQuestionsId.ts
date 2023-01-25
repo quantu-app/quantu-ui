@@ -33,6 +33,12 @@ export interface PatchApiQuizzesQuizIdQuestionsId {
     item_order_position?: number;
     /**
      * 
+     * @type {object}
+     * @memberof PatchApiQuizzesQuizIdQuestionsId
+     */
+    data?: object;
+    /**
+     * 
      * @type {string}
      * @memberof PatchApiQuizzesQuizIdQuestionsId
      */
@@ -70,6 +76,7 @@ export function PatchApiQuizzesQuizIdQuestionsIdFromJSONTyped(json: any, ignoreD
         
         'name': !exists(json, 'name') ? undefined : json['name'],
         'item_order_position': !exists(json, 'item_order_position') ? undefined : json['item_order_position'],
+        'data': !exists(json, 'data') ? undefined : json['data'],
         'question_type': !exists(json, 'question_type') ? undefined : json['question_type'],
     };
 }
@@ -85,6 +92,7 @@ export function PatchApiQuizzesQuizIdQuestionsIdToJSON(value?: PatchApiQuizzesQu
         
         'name': value.name,
         'item_order_position': value.item_order_position,
+        'data': value.data,
         'question_type': value.question_type,
     };
 }

@@ -1,6 +1,6 @@
 import type { PatchApiQuizzesId, PostApiQuizzes, Quiz } from '$lib/openapi/quantu';
 import { convertToUrlSafe } from '$lib/util';
-import { getIndexedDB, type LocalSchema } from './IndexedDB';
+import { getIndexedDB, type LocalQuiz } from './IndexedDB';
 
 export async function idbGetQuizzes(userId: number) {
 	const db = await getIndexedDB();
@@ -14,7 +14,7 @@ export async function idbGetQuizByLocalId(localId: number) {
 	return quiz;
 }
 
-export async function idbCreateQuiz(userId: number, data: PostApiQuizzes & Partial<Quiz>) {
+export async function idbCreateQuiz(userId: number, data: PostApiQuizzes) {
 	const db = await getIndexedDB();
 	const localQuiz = {
 		...createEmptyQuiz(userId),
@@ -35,6 +35,7 @@ export async function idbUpdateQuiz(
 	const updatedQuiz = {
 		...localQuiz,
 		...data,
+		user_id: userId,
 		local_id: localId,
 		uri: data.name ? convertToUrlSafe(data.name) : localQuiz.uri,
 		updated_at: new Date()
@@ -49,6 +50,7 @@ export async function idbSetFromRemoteQuiz(userId: number, localId: number, quiz
 	const updatedLocalQuiz = {
 		...localQuiz,
 		...quiz,
+		user_id: userId,
 		local_id: localId
 	};
 	await db.put('quizzes', updatedLocalQuiz);
@@ -76,5 +78,5 @@ function createEmptyQuiz(userId: number) {
 		uri: '',
 		created_at: new Date(),
 		updated_at: new Date()
-	} as LocalSchema<Quiz>;
+	} as LocalQuiz;
 }

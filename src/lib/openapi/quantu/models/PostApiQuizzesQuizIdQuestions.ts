@@ -33,6 +33,12 @@ export interface PostApiQuizzesQuizIdQuestions {
     item_order_position?: number;
     /**
      * 
+     * @type {object}
+     * @memberof PostApiQuizzesQuizIdQuestions
+     */
+    data: object;
+    /**
+     * 
      * @type {string}
      * @memberof PostApiQuizzesQuizIdQuestions
      */
@@ -54,6 +60,7 @@ export type PostApiQuizzesQuizIdQuestionsQuestionTypeEnum = typeof PostApiQuizze
  */
 export function instanceOfPostApiQuizzesQuizIdQuestions(value: object): boolean {
     let isInstance = true;
+    isInstance = isInstance && "data" in value;
     isInstance = isInstance && "question_type" in value;
 
     return isInstance;
@@ -71,6 +78,7 @@ export function PostApiQuizzesQuizIdQuestionsFromJSONTyped(json: any, ignoreDisc
         
         'name': !exists(json, 'name') ? undefined : json['name'],
         'item_order_position': !exists(json, 'item_order_position') ? undefined : json['item_order_position'],
+        'data': json['data'],
         'question_type': json['question_type'],
     };
 }
@@ -86,6 +94,7 @@ export function PostApiQuizzesQuizIdQuestionsToJSON(value?: PostApiQuizzesQuizId
         
         'name': value.name,
         'item_order_position': value.item_order_position,
+        'data': value.data,
         'question_type': value.question_type,
     };
 }
