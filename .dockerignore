@@ -1,0 +1,9 @@
+.DS_Store
+node_modules
+/.svelte-kit
+/build
+/helm
+/src-tauri
+.env
+.env.example
+README.md

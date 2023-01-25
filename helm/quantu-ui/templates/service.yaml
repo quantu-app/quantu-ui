@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: { { include "quantu-ui.fullname" . }}
+  labels: {{- include "quantu-ui.labels" . | nindent 4 }}
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector: {{- include "quantu-ui.selectorLabels" . | nindent 4 }}
