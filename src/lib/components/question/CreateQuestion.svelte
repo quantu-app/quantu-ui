@@ -10,13 +10,19 @@
 
 	let name: string;
 	let question_type: LocalQuestion['question_type'] = 'flash_card';
-	let data: LocalQuestion['data'] = {};
+	let data: LocalQuestion['data'] = {
+		front: [],
+		back: []
+	};
 
 	async function onSubmit() {
 		const _question = await createQuestion(localQuizId, { name, question_type, data });
 		name = '';
 		question_type = 'flash_card';
-		data = {};
+		data = {
+			front: [],
+			back: []
+		};
 		open = false;
 	}
 
