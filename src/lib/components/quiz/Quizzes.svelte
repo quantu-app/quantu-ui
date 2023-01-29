@@ -31,7 +31,7 @@
 	}
 	function createOnOpenQuiz(quiz: LocalQuiz) {
 		return async () => {
-			await goto(`${base}/${quiz.local_id}`);
+			await goto(`${base}/quizzes/${quiz.local_id}`);
 		};
 	}
 </script>

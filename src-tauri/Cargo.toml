@@ -1,11 +1,11 @@
 [package]
-name = "app"
+name = "quantu_ui"
 version = "0.1.0"
-description = "A Tauri App"
+description = "Quantu UI"
 authors = ["nathanfaucett@gmail.com"]
 license = ""
 repository = ""
-default-run = "app"
+default-run = "quantu_ui"
 edition = "2021"
 rust-version = "1.59"
 

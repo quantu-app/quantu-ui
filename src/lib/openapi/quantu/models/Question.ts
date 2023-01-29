@@ -44,11 +44,17 @@ export interface Question {
      */
     uri?: string;
     /**
-     * Quiz Id
+     * Type of learnable resource the Question belongs to
+     * @type {string}
+     * @memberof Question
+     */
+    learnable_resource_type: QuestionLearnableResourceTypeEnum;
+    /**
+     * Learnable Resource Id
      * @type {number}
      * @memberof Question
      */
-    quiz_id: number;
+    learnable_resource: number;
     /**
      * Type of Question
      * @type {string}
@@ -85,6 +91,14 @@ export interface Question {
 /**
  * @export
  */
+export const QuestionLearnableResourceTypeEnum = {
+    Quiz: 'Quiz'
+} as const;
+export type QuestionLearnableResourceTypeEnum = typeof QuestionLearnableResourceTypeEnum[keyof typeof QuestionLearnableResourceTypeEnum];
+
+/**
+ * @export
+ */
 export const QuestionQuestionTypeEnum = {
     FlashCard: 'flash_card'
 } as const;
@@ -98,7 +112,8 @@ export function instanceOfQuestion(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "id" in value;
     isInstance = isInstance && "user_id" in value;
-    isInstance = isInstance && "quiz_id" in value;
+    isInstance = isInstance && "learnable_resource_type" in value;
+    isInstance = isInstance && "learnable_resource" in value;
     isInstance = isInstance && "question_type" in value;
     isInstance = isInstance && "item_order" in value;
     isInstance = isInstance && "data" in value;
@@ -122,7 +137,8 @@ export function QuestionFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
         'user_id': json['user_id'],
         'name': !exists(json, 'name') ? undefined : json['name'],
         'uri': !exists(json, 'uri') ? undefined : json['uri'],
-        'quiz_id': json['quiz_id'],
+        'learnable_resource_type': json['learnable_resource_type'],
+        'learnable_resource': json['learnable_resource'],
         'question_type': json['question_type'],
         'item_order': json['item_order'],
         'data': json['data'],
@@ -144,7 +160,8 @@ export function QuestionToJSON(value?: Question | null): any {
         'user_id': value.user_id,
         'name': value.name,
         'uri': value.uri,
-        'quiz_id': value.quiz_id,
+        'learnable_resource_type': value.learnable_resource_type,
+        'learnable_resource': value.learnable_resource,
         'question_type': value.question_type,
         'item_order': value.item_order,
         'data': value.data,

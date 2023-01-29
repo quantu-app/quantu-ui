@@ -4,44 +4,46 @@
 	import type { LocalQuestion } from '$lib/idb/IndexedDB';
 	import { createQuestion } from '$lib/stores/questions';
 	import { autofocus } from '$lib/util';
-	import Modal from '../Modal.svelte';
+	import FlashCardEditor from './FlashCardEditor.svelte';
 
 	export let localQuizId: number;
 
 	let name: string;
-	let question_type: LocalQuestion['question_type'] = 'flash_card';
-	let data: LocalQuestion['data'] = {
-		front: [],
-		back: []
-	};
+	let questionType: LocalQuestion['question_type'] = 'flash_card';
+	let data = {};
 
 	async function onSubmit() {
-		const _question = await createQuestion(localQuizId, { name, question_type, data });
+		const _question = await createQuestion(localQuizId, {
+			name,
+			question_type: questionType,
+			data
+		});
 		name = '';
-		question_type = 'flash_card';
-		data = {
-			front: [],
-			back: []
-		};
-		open = false;
-	}
-
-	let open = false;
-	function onOpen() {
-		open = true;
+		questionType = 'flash_card';
+		data = {};
 	}
 </script>
 
-<button class="btn primary" on:click={onOpen}>Create Question</button>
-
-<Modal bind:open>
-	<h3 slot="title">Create a Question</h3>
-	<form on:submit|preventDefault={onSubmit}>
-		<input type="text" use:autofocus class="mb-1" placeholder="Name" bind:value={name} />
-		<div class="flex flex-column justify-end">
-			<div class="flex">
-				<input type="submit" class="btn primary" value="Create Question" disabled={!name} />
-			</div>
+<h3>Create a Question</h3>
+<hr />
+<form on:submit|preventDefault={onSubmit}>
+	<div>
+		<label for="name">Name</label>
+		<input
+			type="text"
+			use:autofocus
+			class="mb-1"
+			placeholder="Name"
+			name="name"
+			bind:value={name}
+		/>
+	</div>
+	{#if questionType === 'flash_card'}
+		<FlashCardEditor bind:data />
+	{/if}
+	<div class="flex flex-column justify-end">
+		<div class="flex">
+			<input type="submit" class="btn primary" value="Create Question" disabled={!name} />
 		</div>
-	</form>
-</Modal>
+	</div>
+</form>

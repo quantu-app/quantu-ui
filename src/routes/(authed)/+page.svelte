@@ -1,6 +1,6 @@
 <svelte:options immutable />
 
-<script>
+<script lang="ts">
 	import Quizzes from '$lib/components/quiz/Quizzes.svelte';
 	import { quizzes } from '$lib/stores/quizzes';
 </script>

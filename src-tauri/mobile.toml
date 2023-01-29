@@ -1,0 +1,5 @@
+[app]
+name = "quantu_ui"
+stylized-name = "Quant[U]"
+domain = "quantu.app"
+template-pack = "wry"

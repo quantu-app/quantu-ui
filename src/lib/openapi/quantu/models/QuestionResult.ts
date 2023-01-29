@@ -14,102 +14,84 @@
 
 import { exists, mapValues } from '../runtime';
 /**
- * Quiz model
+ * QuestionResult model
  * @export
- * @interface Quiz
+ * @interface QuestionResult
  */
-export interface Quiz {
+export interface QuestionResult {
     /**
      * ID
      * @type {number}
-     * @memberof Quiz
+     * @memberof QuestionResult
      */
     id: number;
     /**
+     * Data
+     * @type {object}
+     * @memberof QuestionResult
+     */
+    data: object;
+    /**
      * User Id
      * @type {number}
-     * @memberof Quiz
+     * @memberof QuestionResult
      */
     user_id: number;
     /**
-     * Learnable Resource Id
-     * @type {string}
-     * @memberof Quiz
+     * Question Id
+     * @type {number}
+     * @memberof QuestionResult
      */
-    learnable_resource_type: QuizLearnableResourceTypeEnum;
-    /**
-     * Name
-     * @type {string}
-     * @memberof Quiz
-     */
-    name: string;
-    /**
-     * URI
-     * @type {string}
-     * @memberof Quiz
-     */
-    uri: string;
+    question_id: number;
     /**
      * 
      * @type {Date}
-     * @memberof Quiz
+     * @memberof QuestionResult
      */
     created_at: Date;
     /**
      * 
      * @type {Date}
-     * @memberof Quiz
+     * @memberof QuestionResult
      */
     updated_at: Date;
 }
 
-
 /**
- * @export
+ * Check if a given object implements the QuestionResult interface.
  */
-export const QuizLearnableResourceTypeEnum = {
-    Quiz: 'Quiz'
-} as const;
-export type QuizLearnableResourceTypeEnum = typeof QuizLearnableResourceTypeEnum[keyof typeof QuizLearnableResourceTypeEnum];
-
-
-/**
- * Check if a given object implements the Quiz interface.
- */
-export function instanceOfQuiz(value: object): boolean {
+export function instanceOfQuestionResult(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "id" in value;
+    isInstance = isInstance && "data" in value;
     isInstance = isInstance && "user_id" in value;
-    isInstance = isInstance && "learnable_resource_type" in value;
-    isInstance = isInstance && "name" in value;
-    isInstance = isInstance && "uri" in value;
+    isInstance = isInstance && "question_id" in value;
     isInstance = isInstance && "created_at" in value;
     isInstance = isInstance && "updated_at" in value;
 
     return isInstance;
 }
 
-export function QuizFromJSON(json: any): Quiz {
-    return QuizFromJSONTyped(json, false);
+export function QuestionResultFromJSON(json: any): QuestionResult {
+    return QuestionResultFromJSONTyped(json, false);
 }
 
-export function QuizFromJSONTyped(json: any, ignoreDiscriminator: boolean): Quiz {
+export function QuestionResultFromJSONTyped(json: any, ignoreDiscriminator: boolean): QuestionResult {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
         'id': json['id'],
+        'data': json['data'],
         'user_id': json['user_id'],
-        'learnable_resource_type': json['learnable_resource_type'],
-        'name': json['name'],
-        'uri': json['uri'],
+        'question_id': json['question_id'],
         'created_at': (new Date(json['created_at'])),
         'updated_at': (new Date(json['updated_at'])),
     };
 }
 
-export function QuizToJSON(value?: Quiz | null): any {
+export function QuestionResultToJSON(value?: QuestionResult | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -119,10 +101,9 @@ export function QuizToJSON(value?: Quiz | null): any {
     return {
         
         'id': value.id,
+        'data': value.data,
         'user_id': value.user_id,
-        'learnable_resource_type': value.learnable_resource_type,
-        'name': value.name,
-        'uri': value.uri,
+        'question_id': value.question_id,
         'created_at': (value.created_at.toISOString()),
         'updated_at': (value.updated_at.toISOString()),
     };

@@ -1,7 +1,6 @@
 <svelte:options immutable />
 
 <script lang="ts">
-	import CreateQuestion from './CreateQuestion.svelte';
 	import type { Question } from '$lib/openapi/quantu/models/Question';
 	import SortDirection from '../SortDirection.svelte';
 	import type { LocalQuestion } from '$lib/idb/IndexedDB';
@@ -37,7 +36,7 @@
 	}
 </script>
 
-<CreateQuestion {localQuizId} />
+<a class="btn primary" href={`${base}/quizzes/${localQuizId}/questions/create`}>Create Question</a>
 
 <table class="table-auto w-full">
 	<thead>

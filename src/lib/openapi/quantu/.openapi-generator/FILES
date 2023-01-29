@@ -1,7 +1,9 @@
 .openapi-generator-ignore
 apis/AuthApi.ts
+apis/QuestionResultsApi.ts
 apis/QuestionsApi.ts
 apis/QuizzesApi.ts
+apis/StudySessionsApi.ts
 apis/index.ts
 index.ts
 models/ErrorResponse.ts
@@ -9,11 +11,16 @@ models/MovedQuestion.ts
 models/PatchApiQuizzesId.ts
 models/PatchApiQuizzesQuizIdQuestionsId.ts
 models/PatchApiQuizzesQuizIdQuestionsIdMove.ts
+models/PatchApiStudySessionsId.ts
 models/PostApiAuthLogin.ts
+models/PostApiQuestionResults.ts
 models/PostApiQuizzes.ts
 models/PostApiQuizzesQuizIdQuestions.ts
+models/PostApiStudySessions.ts
 models/Question.ts
+models/QuestionResult.ts
 models/Quiz.ts
+models/StudySession.ts
 models/Token.ts
 models/User.ts
 models/index.ts
