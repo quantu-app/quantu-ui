@@ -16,59 +16,59 @@ import { exists, mapValues } from '../runtime';
 /**
  * Update a Question
  * @export
- * @interface PatchApiQuizzesQuizIdQuestionsId
+ * @interface PatchApiQuestionsId
  */
-export interface PatchApiQuizzesQuizIdQuestionsId {
+export interface PatchApiQuestionsId {
     /**
      * 
      * @type {string}
-     * @memberof PatchApiQuizzesQuizIdQuestionsId
+     * @memberof PatchApiQuestionsId
      */
     name?: string;
     /**
      * 
      * @type {number}
-     * @memberof PatchApiQuizzesQuizIdQuestionsId
+     * @memberof PatchApiQuestionsId
      */
     item_order_position?: number;
     /**
      * 
      * @type {object}
-     * @memberof PatchApiQuizzesQuizIdQuestionsId
+     * @memberof PatchApiQuestionsId
      */
     data?: object;
     /**
      * 
      * @type {string}
-     * @memberof PatchApiQuizzesQuizIdQuestionsId
+     * @memberof PatchApiQuestionsId
      */
-    question_type?: PatchApiQuizzesQuizIdQuestionsIdQuestionTypeEnum;
+    question_type?: PatchApiQuestionsIdQuestionTypeEnum;
 }
 
 
 /**
  * @export
  */
-export const PatchApiQuizzesQuizIdQuestionsIdQuestionTypeEnum = {
+export const PatchApiQuestionsIdQuestionTypeEnum = {
     FlashCard: 'flash_card'
 } as const;
-export type PatchApiQuizzesQuizIdQuestionsIdQuestionTypeEnum = typeof PatchApiQuizzesQuizIdQuestionsIdQuestionTypeEnum[keyof typeof PatchApiQuizzesQuizIdQuestionsIdQuestionTypeEnum];
+export type PatchApiQuestionsIdQuestionTypeEnum = typeof PatchApiQuestionsIdQuestionTypeEnum[keyof typeof PatchApiQuestionsIdQuestionTypeEnum];
 
 
 /**
- * Check if a given object implements the PatchApiQuizzesQuizIdQuestionsId interface.
+ * Check if a given object implements the PatchApiQuestionsId interface.
  */
-export function instanceOfPatchApiQuizzesQuizIdQuestionsId(value: object): boolean {
+export function instanceOfPatchApiQuestionsId(value: object): boolean {
     let isInstance = true;
 
     return isInstance;
 }
 
-export function PatchApiQuizzesQuizIdQuestionsIdFromJSON(json: any): PatchApiQuizzesQuizIdQuestionsId {
-    return PatchApiQuizzesQuizIdQuestionsIdFromJSONTyped(json, false);
+export function PatchApiQuestionsIdFromJSON(json: any): PatchApiQuestionsId {
+    return PatchApiQuestionsIdFromJSONTyped(json, false);
 }
 
-export function PatchApiQuizzesQuizIdQuestionsIdFromJSONTyped(json: any, ignoreDiscriminator: boolean): PatchApiQuizzesQuizIdQuestionsId {
+export function PatchApiQuestionsIdFromJSONTyped(json: any, ignoreDiscriminator: boolean): PatchApiQuestionsId {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -81,7 +81,7 @@ export function PatchApiQuizzesQuizIdQuestionsIdFromJSONTyped(json: any, ignoreD
     };
 }
 
-export function PatchApiQuizzesQuizIdQuestionsIdToJSON(value?: PatchApiQuizzesQuizIdQuestionsId | null): any {
+export function PatchApiQuestionsIdToJSON(value?: PatchApiQuestionsId | null): any {
     if (value === undefined) {
         return undefined;
     }

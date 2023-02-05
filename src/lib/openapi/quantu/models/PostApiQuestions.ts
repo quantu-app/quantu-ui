@@ -16,49 +16,49 @@ import { exists, mapValues } from '../runtime';
 /**
  * Create a new question
  * @export
- * @interface PostApiQuizzesQuizIdQuestions
+ * @interface PostApiQuestions
  */
-export interface PostApiQuizzesQuizIdQuestions {
+export interface PostApiQuestions {
     /**
      * 
      * @type {string}
-     * @memberof PostApiQuizzesQuizIdQuestions
+     * @memberof PostApiQuestions
      */
     name?: string;
     /**
      * 
      * @type {number}
-     * @memberof PostApiQuizzesQuizIdQuestions
+     * @memberof PostApiQuestions
      */
     item_order_position?: number;
     /**
      * 
      * @type {object}
-     * @memberof PostApiQuizzesQuizIdQuestions
+     * @memberof PostApiQuestions
      */
     data: object;
     /**
      * 
      * @type {string}
-     * @memberof PostApiQuizzesQuizIdQuestions
+     * @memberof PostApiQuestions
      */
-    question_type: PostApiQuizzesQuizIdQuestionsQuestionTypeEnum;
+    question_type: PostApiQuestionsQuestionTypeEnum;
 }
 
 
 /**
  * @export
  */
-export const PostApiQuizzesQuizIdQuestionsQuestionTypeEnum = {
+export const PostApiQuestionsQuestionTypeEnum = {
     FlashCard: 'flash_card'
 } as const;
-export type PostApiQuizzesQuizIdQuestionsQuestionTypeEnum = typeof PostApiQuizzesQuizIdQuestionsQuestionTypeEnum[keyof typeof PostApiQuizzesQuizIdQuestionsQuestionTypeEnum];
+export type PostApiQuestionsQuestionTypeEnum = typeof PostApiQuestionsQuestionTypeEnum[keyof typeof PostApiQuestionsQuestionTypeEnum];
 
 
 /**
- * Check if a given object implements the PostApiQuizzesQuizIdQuestions interface.
+ * Check if a given object implements the PostApiQuestions interface.
  */
-export function instanceOfPostApiQuizzesQuizIdQuestions(value: object): boolean {
+export function instanceOfPostApiQuestions(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "data" in value;
     isInstance = isInstance && "question_type" in value;
@@ -66,11 +66,11 @@ export function instanceOfPostApiQuizzesQuizIdQuestions(value: object): boolean 
     return isInstance;
 }
 
-export function PostApiQuizzesQuizIdQuestionsFromJSON(json: any): PostApiQuizzesQuizIdQuestions {
-    return PostApiQuizzesQuizIdQuestionsFromJSONTyped(json, false);
+export function PostApiQuestionsFromJSON(json: any): PostApiQuestions {
+    return PostApiQuestionsFromJSONTyped(json, false);
 }
 
-export function PostApiQuizzesQuizIdQuestionsFromJSONTyped(json: any, ignoreDiscriminator: boolean): PostApiQuizzesQuizIdQuestions {
+export function PostApiQuestionsFromJSONTyped(json: any, ignoreDiscriminator: boolean): PostApiQuestions {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -83,7 +83,7 @@ export function PostApiQuizzesQuizIdQuestionsFromJSONTyped(json: any, ignoreDisc
     };
 }
 
-export function PostApiQuizzesQuizIdQuestionsToJSON(value?: PostApiQuizzesQuizIdQuestions | null): any {
+export function PostApiQuestionsToJSON(value?: PostApiQuestions | null): any {
     if (value === undefined) {
         return undefined;
     }

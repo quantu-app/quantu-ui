@@ -16,32 +16,17 @@
 import * as runtime from '../runtime';
 import type {
   ErrorResponse,
-  MovedQuestion,
   PatchApiQuizzesId,
-  PatchApiQuizzesQuizIdQuestionsId,
-  PatchApiQuizzesQuizIdQuestionsIdMove,
   PostApiQuizzes,
-  PostApiQuizzesQuizIdQuestions,
-  Question,
   Quiz,
 } from '../models';
 import {
     ErrorResponseFromJSON,
     ErrorResponseToJSON,
-    MovedQuestionFromJSON,
-    MovedQuestionToJSON,
     PatchApiQuizzesIdFromJSON,
     PatchApiQuizzesIdToJSON,
-    PatchApiQuizzesQuizIdQuestionsIdFromJSON,
-    PatchApiQuizzesQuizIdQuestionsIdToJSON,
-    PatchApiQuizzesQuizIdQuestionsIdMoveFromJSON,
-    PatchApiQuizzesQuizIdQuestionsIdMoveToJSON,
     PostApiQuizzesFromJSON,
     PostApiQuizzesToJSON,
-    PostApiQuizzesQuizIdQuestionsFromJSON,
-    PostApiQuizzesQuizIdQuestionsToJSON,
-    QuestionFromJSON,
-    QuestionToJSON,
     QuizFromJSON,
     QuizToJSON,
 } from '../models';
@@ -50,21 +35,7 @@ export interface DeleteApiQuizzesIdRequest {
     id: number;
 }
 
-export interface DeleteApiQuizzesQuizIdQuestionsIdRequest {
-    quizId: number;
-    id: number;
-}
-
 export interface GetApiQuizzesIdRequest {
-    id: number;
-}
-
-export interface GetApiQuizzesQuizIdQuestionsRequest {
-    quizId: number;
-}
-
-export interface GetApiQuizzesQuizIdQuestionsIdRequest {
-    quizId: number;
     id: number;
 }
 
@@ -73,25 +44,8 @@ export interface PatchApiQuizzesIdRequest {
     patchApiQuizzesId: PatchApiQuizzesId;
 }
 
-export interface PatchApiQuizzesQuizIdQuestionsIdRequest {
-    quizId: number;
-    id: number;
-    patchApiQuizzesQuizIdQuestionsId: PatchApiQuizzesQuizIdQuestionsId;
-}
-
-export interface PatchApiQuizzesQuizIdQuestionsIdMoveRequest {
-    quizId: number;
-    id: number;
-    patchApiQuizzesQuizIdQuestionsIdMove: PatchApiQuizzesQuizIdQuestionsIdMove;
-}
-
 export interface PostApiQuizzesRequest {
     postApiQuizzes: PostApiQuizzes;
-}
-
-export interface PostApiQuizzesQuizIdQuestionsRequest {
-    quizId: number;
-    postApiQuizzesQuizIdQuestions: PostApiQuizzesQuizIdQuestions;
 }
 
 /**
@@ -114,21 +68,6 @@ export interface QuizzesApiInterface {
      * Delete a quiz
      */
     deleteApiQuizzesId(requestParameters: DeleteApiQuizzesIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
-
-    /**
-     * Delete a Question
-     * @param {number} quizId 
-     * @param {number} id 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof QuizzesApiInterface
-     */
-    deleteApiQuizzesQuizIdQuestionsIdRaw(requestParameters: DeleteApiQuizzesQuizIdQuestionsIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>>;
-
-    /**
-     * Delete a Question
-     */
-    deleteApiQuizzesQuizIdQuestionsId(requestParameters: DeleteApiQuizzesQuizIdQuestionsIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
 
     /**
      * List all quizzes
@@ -158,35 +97,6 @@ export interface QuizzesApiInterface {
     getApiQuizzesId(requestParameters: GetApiQuizzesIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Quiz>;
 
     /**
-     * List all questions belonging to a Quiz
-     * @param {number} quizId 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof QuizzesApiInterface
-     */
-    getApiQuizzesQuizIdQuestionsRaw(requestParameters: GetApiQuizzesQuizIdQuestionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Question>>>;
-
-    /**
-     * List all questions belonging to a Quiz
-     */
-    getApiQuizzesQuizIdQuestions(requestParameters: GetApiQuizzesQuizIdQuestionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<Question>>;
-
-    /**
-     * Show a Question
-     * @param {number} quizId 
-     * @param {number} id The question ID.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof QuizzesApiInterface
-     */
-    getApiQuizzesQuizIdQuestionsIdRaw(requestParameters: GetApiQuizzesQuizIdQuestionsIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Question>>;
-
-    /**
-     * Show a Question
-     */
-    getApiQuizzesQuizIdQuestionsId(requestParameters: GetApiQuizzesQuizIdQuestionsIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Question>;
-
-    /**
      * Update a quiz
      * @param {number} id 
      * @param {PatchApiQuizzesId} patchApiQuizzesId 
@@ -202,38 +112,6 @@ export interface QuizzesApiInterface {
     patchApiQuizzesId(requestParameters: PatchApiQuizzesIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Quiz>;
 
     /**
-     * Update a Question
-     * @param {number} quizId 
-     * @param {number} id 
-     * @param {PatchApiQuizzesQuizIdQuestionsId} patchApiQuizzesQuizIdQuestionsId 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof QuizzesApiInterface
-     */
-    patchApiQuizzesQuizIdQuestionsIdRaw(requestParameters: PatchApiQuizzesQuizIdQuestionsIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Question>>;
-
-    /**
-     * Update a Question
-     */
-    patchApiQuizzesQuizIdQuestionsId(requestParameters: PatchApiQuizzesQuizIdQuestionsIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Question>;
-
-    /**
-     * Move a Question to a new position within the ordered questions list
-     * @param {number} quizId 
-     * @param {number} id 
-     * @param {PatchApiQuizzesQuizIdQuestionsIdMove} patchApiQuizzesQuizIdQuestionsIdMove 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof QuizzesApiInterface
-     */
-    patchApiQuizzesQuizIdQuestionsIdMoveRaw(requestParameters: PatchApiQuizzesQuizIdQuestionsIdMoveRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MovedQuestion>>;
-
-    /**
-     * Move a Question to a new position within the ordered questions list
-     */
-    patchApiQuizzesQuizIdQuestionsIdMove(requestParameters: PatchApiQuizzesQuizIdQuestionsIdMoveRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MovedQuestion>;
-
-    /**
      * Create a new quiz
      * @param {PostApiQuizzes} postApiQuizzes 
      * @param {*} [options] Override http request option.
@@ -246,21 +124,6 @@ export interface QuizzesApiInterface {
      * Create a new quiz
      */
     postApiQuizzes(requestParameters: PostApiQuizzesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Quiz>;
-
-    /**
-     * Create a new question
-     * @param {number} quizId 
-     * @param {PostApiQuizzesQuizIdQuestions} postApiQuizzesQuizIdQuestions 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof QuizzesApiInterface
-     */
-    postApiQuizzesQuizIdQuestionsRaw(requestParameters: PostApiQuizzesQuizIdQuestionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Question>>;
-
-    /**
-     * Create a new question
-     */
-    postApiQuizzesQuizIdQuestions(requestParameters: PostApiQuizzesQuizIdQuestionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Question>;
 
 }
 
@@ -300,43 +163,6 @@ export class QuizzesApi extends runtime.BaseAPI implements QuizzesApiInterface {
      */
     async deleteApiQuizzesId(requestParameters: DeleteApiQuizzesIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.deleteApiQuizzesIdRaw(requestParameters, initOverrides);
-    }
-
-    /**
-     * Delete a Question
-     */
-    async deleteApiQuizzesQuizIdQuestionsIdRaw(requestParameters: DeleteApiQuizzesQuizIdQuestionsIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters.quizId === null || requestParameters.quizId === undefined) {
-            throw new runtime.RequiredError('quizId','Required parameter requestParameters.quizId was null or undefined when calling deleteApiQuizzesQuizIdQuestionsId.');
-        }
-
-        if (requestParameters.id === null || requestParameters.id === undefined) {
-            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling deleteApiQuizzesQuizIdQuestionsId.');
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        if (this.configuration && this.configuration.apiKey) {
-            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // bearer_auth authentication
-        }
-
-        const response = await this.request({
-            path: `/api/quizzes/{quiz_id}/questions/{id}`.replace(`{${"quiz_id"}}`, encodeURIComponent(String(requestParameters.quizId))).replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
-            method: 'DELETE',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.VoidApiResponse(response);
-    }
-
-    /**
-     * Delete a Question
-     */
-    async deleteApiQuizzesQuizIdQuestionsId(requestParameters: DeleteApiQuizzesQuizIdQuestionsIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.deleteApiQuizzesQuizIdQuestionsIdRaw(requestParameters, initOverrides);
     }
 
     /**
@@ -404,78 +230,6 @@ export class QuizzesApi extends runtime.BaseAPI implements QuizzesApiInterface {
     }
 
     /**
-     * List all questions belonging to a Quiz
-     */
-    async getApiQuizzesQuizIdQuestionsRaw(requestParameters: GetApiQuizzesQuizIdQuestionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Question>>> {
-        if (requestParameters.quizId === null || requestParameters.quizId === undefined) {
-            throw new runtime.RequiredError('quizId','Required parameter requestParameters.quizId was null or undefined when calling getApiQuizzesQuizIdQuestions.');
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        if (this.configuration && this.configuration.apiKey) {
-            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // bearer_auth authentication
-        }
-
-        const response = await this.request({
-            path: `/api/quizzes/{quiz_id}/questions`.replace(`{${"quiz_id"}}`, encodeURIComponent(String(requestParameters.quizId))),
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(QuestionFromJSON));
-    }
-
-    /**
-     * List all questions belonging to a Quiz
-     */
-    async getApiQuizzesQuizIdQuestions(requestParameters: GetApiQuizzesQuizIdQuestionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<Question>> {
-        const response = await this.getApiQuizzesQuizIdQuestionsRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
-     * Show a Question
-     */
-    async getApiQuizzesQuizIdQuestionsIdRaw(requestParameters: GetApiQuizzesQuizIdQuestionsIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Question>> {
-        if (requestParameters.quizId === null || requestParameters.quizId === undefined) {
-            throw new runtime.RequiredError('quizId','Required parameter requestParameters.quizId was null or undefined when calling getApiQuizzesQuizIdQuestionsId.');
-        }
-
-        if (requestParameters.id === null || requestParameters.id === undefined) {
-            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling getApiQuizzesQuizIdQuestionsId.');
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        if (this.configuration && this.configuration.apiKey) {
-            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // bearer_auth authentication
-        }
-
-        const response = await this.request({
-            path: `/api/quizzes/{quiz_id}/questions/{id}`.replace(`{${"quiz_id"}}`, encodeURIComponent(String(requestParameters.quizId))).replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => QuestionFromJSON(jsonValue));
-    }
-
-    /**
-     * Show a Question
-     */
-    async getApiQuizzesQuizIdQuestionsId(requestParameters: GetApiQuizzesQuizIdQuestionsIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Question> {
-        const response = await this.getApiQuizzesQuizIdQuestionsIdRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
      * Update a quiz
      */
     async patchApiQuizzesIdRaw(requestParameters: PatchApiQuizzesIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Quiz>> {
@@ -517,96 +271,6 @@ export class QuizzesApi extends runtime.BaseAPI implements QuizzesApiInterface {
     }
 
     /**
-     * Update a Question
-     */
-    async patchApiQuizzesQuizIdQuestionsIdRaw(requestParameters: PatchApiQuizzesQuizIdQuestionsIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Question>> {
-        if (requestParameters.quizId === null || requestParameters.quizId === undefined) {
-            throw new runtime.RequiredError('quizId','Required parameter requestParameters.quizId was null or undefined when calling patchApiQuizzesQuizIdQuestionsId.');
-        }
-
-        if (requestParameters.id === null || requestParameters.id === undefined) {
-            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling patchApiQuizzesQuizIdQuestionsId.');
-        }
-
-        if (requestParameters.patchApiQuizzesQuizIdQuestionsId === null || requestParameters.patchApiQuizzesQuizIdQuestionsId === undefined) {
-            throw new runtime.RequiredError('patchApiQuizzesQuizIdQuestionsId','Required parameter requestParameters.patchApiQuizzesQuizIdQuestionsId was null or undefined when calling patchApiQuizzesQuizIdQuestionsId.');
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
-
-        if (this.configuration && this.configuration.apiKey) {
-            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // bearer_auth authentication
-        }
-
-        const response = await this.request({
-            path: `/api/quizzes/{quiz_id}/questions/{id}`.replace(`{${"quiz_id"}}`, encodeURIComponent(String(requestParameters.quizId))).replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
-            method: 'PATCH',
-            headers: headerParameters,
-            query: queryParameters,
-            body: PatchApiQuizzesQuizIdQuestionsIdToJSON(requestParameters.patchApiQuizzesQuizIdQuestionsId),
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => QuestionFromJSON(jsonValue));
-    }
-
-    /**
-     * Update a Question
-     */
-    async patchApiQuizzesQuizIdQuestionsId(requestParameters: PatchApiQuizzesQuizIdQuestionsIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Question> {
-        const response = await this.patchApiQuizzesQuizIdQuestionsIdRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
-     * Move a Question to a new position within the ordered questions list
-     */
-    async patchApiQuizzesQuizIdQuestionsIdMoveRaw(requestParameters: PatchApiQuizzesQuizIdQuestionsIdMoveRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MovedQuestion>> {
-        if (requestParameters.quizId === null || requestParameters.quizId === undefined) {
-            throw new runtime.RequiredError('quizId','Required parameter requestParameters.quizId was null or undefined when calling patchApiQuizzesQuizIdQuestionsIdMove.');
-        }
-
-        if (requestParameters.id === null || requestParameters.id === undefined) {
-            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling patchApiQuizzesQuizIdQuestionsIdMove.');
-        }
-
-        if (requestParameters.patchApiQuizzesQuizIdQuestionsIdMove === null || requestParameters.patchApiQuizzesQuizIdQuestionsIdMove === undefined) {
-            throw new runtime.RequiredError('patchApiQuizzesQuizIdQuestionsIdMove','Required parameter requestParameters.patchApiQuizzesQuizIdQuestionsIdMove was null or undefined when calling patchApiQuizzesQuizIdQuestionsIdMove.');
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
-
-        if (this.configuration && this.configuration.apiKey) {
-            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // bearer_auth authentication
-        }
-
-        const response = await this.request({
-            path: `/api/quizzes/{quiz_id}/questions/{id}/move`.replace(`{${"quiz_id"}}`, encodeURIComponent(String(requestParameters.quizId))).replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
-            method: 'PATCH',
-            headers: headerParameters,
-            query: queryParameters,
-            body: PatchApiQuizzesQuizIdQuestionsIdMoveToJSON(requestParameters.patchApiQuizzesQuizIdQuestionsIdMove),
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => MovedQuestionFromJSON(jsonValue));
-    }
-
-    /**
-     * Move a Question to a new position within the ordered questions list
-     */
-    async patchApiQuizzesQuizIdQuestionsIdMove(requestParameters: PatchApiQuizzesQuizIdQuestionsIdMoveRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MovedQuestion> {
-        const response = await this.patchApiQuizzesQuizIdQuestionsIdMoveRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
      * Create a new quiz
      */
     async postApiQuizzesRaw(requestParameters: PostApiQuizzesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Quiz>> {
@@ -640,47 +304,6 @@ export class QuizzesApi extends runtime.BaseAPI implements QuizzesApiInterface {
      */
     async postApiQuizzes(requestParameters: PostApiQuizzesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Quiz> {
         const response = await this.postApiQuizzesRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
-     * Create a new question
-     */
-    async postApiQuizzesQuizIdQuestionsRaw(requestParameters: PostApiQuizzesQuizIdQuestionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Question>> {
-        if (requestParameters.quizId === null || requestParameters.quizId === undefined) {
-            throw new runtime.RequiredError('quizId','Required parameter requestParameters.quizId was null or undefined when calling postApiQuizzesQuizIdQuestions.');
-        }
-
-        if (requestParameters.postApiQuizzesQuizIdQuestions === null || requestParameters.postApiQuizzesQuizIdQuestions === undefined) {
-            throw new runtime.RequiredError('postApiQuizzesQuizIdQuestions','Required parameter requestParameters.postApiQuizzesQuizIdQuestions was null or undefined when calling postApiQuizzesQuizIdQuestions.');
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
-
-        if (this.configuration && this.configuration.apiKey) {
-            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // bearer_auth authentication
-        }
-
-        const response = await this.request({
-            path: `/api/quizzes/{quiz_id}/questions`.replace(`{${"quiz_id"}}`, encodeURIComponent(String(requestParameters.quizId))),
-            method: 'POST',
-            headers: headerParameters,
-            query: queryParameters,
-            body: PostApiQuizzesQuizIdQuestionsToJSON(requestParameters.postApiQuizzesQuizIdQuestions),
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => QuestionFromJSON(jsonValue));
-    }
-
-    /**
-     * Create a new question
-     */
-    async postApiQuizzesQuizIdQuestions(requestParameters: PostApiQuizzesQuizIdQuestionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Question> {
-        const response = await this.postApiQuizzesQuizIdQuestionsRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

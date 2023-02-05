@@ -11,7 +11,7 @@ import {
 } from '$lib/idb/questions';
 import { waitForUser, getUser } from './user';
 import type { Question, PostApiQuizzesQuizIdQuestions } from '$lib/openapi/quantu';
-import { quizApi } from '$lib/openapi';
+import { quizApi, questionApi } from '$lib/openapi';
 import { idbMarkQuestionAsDeleted } from '$lib/idb/questions';
 import { idbGetQuizByLocalId } from '$lib/idb/quizzes';
 import { getQuizzes, type QuizStore } from './quizzes';
@@ -36,9 +36,9 @@ export async function createQuestion(localQuizId: number, data: PostApiQuizzesQu
 		const userId = getUser()?.id as number;
 		let serverQuestion: Partial<Question> = {};
 		if (isOnline()) {
-			serverQuestion = await quizApi.postApiQuizzesQuizIdQuestions({
+			serverQuestion = await questionApi.postApiQuestions({
 				quizId: localQuiz.id,
-				postApiQuizzesQuizIdQuestions: data
+				postApiQuestions: data
 			});
 		}
 		const localQuestion = await idbCreateQuestion(userId, localQuiz.local_id, localQuiz.id, {

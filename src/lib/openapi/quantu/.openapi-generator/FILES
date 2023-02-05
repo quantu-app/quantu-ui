@@ -8,14 +8,14 @@ apis/index.ts
 index.ts
 models/ErrorResponse.ts
 models/MovedQuestion.ts
+models/PatchApiQuestionsId.ts
+models/PatchApiQuestionsIdMove.ts
 models/PatchApiQuizzesId.ts
-models/PatchApiQuizzesQuizIdQuestionsId.ts
-models/PatchApiQuizzesQuizIdQuestionsIdMove.ts
 models/PatchApiStudySessionsId.ts
 models/PostApiAuthLogin.ts
 models/PostApiQuestionResults.ts
+models/PostApiQuestions.ts
 models/PostApiQuizzes.ts
-models/PostApiQuizzesQuizIdQuestions.ts
 models/PostApiStudySessions.ts
 models/Question.ts
 models/QuestionResult.ts
