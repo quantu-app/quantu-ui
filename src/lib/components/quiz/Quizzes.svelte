@@ -2,11 +2,13 @@
 
 <script lang="ts">
 	import CreateQuiz from './CreateQuiz.svelte';
+	import UpdateQuiz from './UpdateQuiz.svelte';
 	import type { Quiz } from '$lib/openapi/quantu/models/Quiz';
 	import SortDirection from '../SortDirection.svelte';
 	import type { LocalQuiz } from '$lib/idb/IndexedDB';
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
+	import { deleteQuiz } from '$lib/stores/quizzes';
 
 	export let quizzes: LocalQuiz[];
 
@@ -29,14 +31,41 @@
 			quizzes = [...quizzes].sort(sortBy);
 		};
 	}
-	function createOnOpenQuiz(quiz: LocalQuiz) {
-		return async () => {
-			await goto(`${base}/quizzes/${quiz.local_id}`);
-		};
+
+	// EDITING
+	let editQuizLocalId: number;
+	let editQuizName: string;
+	let editQuizOpen: boolean = false;
+
+	function onUpdateQuizOpen(localId: number, name: string) {
+		editQuizName = name;
+		editQuizLocalId = localId;
+		editQuizOpen = true;
+	}
+
+	function onUpdateQuizClose() {
+		editQuizName = '';
+		editQuizLocalId = -1;
+		editQuizOpen = false;
+	}
+
+	// DELETING
+	async function onDelete(localId: number) {
+		let cont = window.confirm('Are you sure?');
+		if (cont) {
+			let _res = await deleteQuiz(localId);
+		}
 	}
 </script>
 
 <CreateQuiz />
+
+<UpdateQuiz
+	name={editQuizName}
+	localId={editQuizLocalId}
+	open={editQuizOpen}
+	onClose={onUpdateQuizClose}
+/>
 
 <table class="table-auto w-full">
 	<thead>
@@ -58,11 +87,23 @@
 	</thead>
 	<tbody>
 		{#each quizzes as quiz (quiz.local_id)}
-			<tr class="hover:bg-gray-200 cursor-pointer" on:click={createOnOpenQuiz(quiz)}>
+			<tr class="hover:bg-gray-200 cursor-pointer">
 				<td class="border-b border-slate-100 dark:border-slate-700 p-1">{quiz.name}</td>
 				<td class="border-b border-slate-100 dark:border-slate-700 p-1"
 					>{quiz.created_at.toLocaleString()}</td
 				>
+				<td class="quiz-commands">
+					<button
+						on:click={() => {
+							onDelete(quiz.local_id);
+						}}
+						class="btn danger">delete</button
+					>
+					<button
+						on:click|preventDefault={() => onUpdateQuizOpen(quiz.local_id, quiz.name)}
+						class="btn primary">edit</button
+					>
+				</td>
 			</tr>
 		{/each}
 	</tbody>
