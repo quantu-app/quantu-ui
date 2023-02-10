@@ -6,7 +6,7 @@
 	import { page } from '$app/stores';
 	import { base } from '$app/paths';
 
-	$: localQuizId = parseInt($page.params.local_quiz_id);
+	$: localQuizId = parseInt($page.params.local_learnable_resource);
 	$: questions = $questionByLocalQuizId[localQuizId] || [];
 </script>
 

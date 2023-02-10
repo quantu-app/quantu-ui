@@ -26,7 +26,7 @@ export type LocalQuiz = Quiz & { local_deleted: number; local_id: number };
 export type LocalQuestion = Question & {
 	local_deleted: number;
 	local_id: number;
-	local_quiz_id: number;
+	local_learnable_resource: number;
 };
 
 export interface IndexedDBSchema extends DBSchema {
@@ -41,8 +41,8 @@ export interface IndexedDBSchema extends DBSchema {
 		indexes: {
 			id: number;
 			user_id: number;
-			quiz_id: number;
-			local_quiz_id: number;
+			learnable_resource: number;
+			local_learnable_resource: number;
 			local_id: number;
 			local_deleted: number;
 		};

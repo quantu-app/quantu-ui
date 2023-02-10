@@ -25,7 +25,8 @@ export const questionByLocalQuestionId = derived(questionsByIdWritable, (state) 
 export const questionByLocalQuizId = derived(questionsByIdWritable, (state) =>
 	Object.values(state).reduce((state, localQuestion) => {
 		const localQuestions =
-			state[localQuestion.local_quiz_id] || (state[localQuestion.local_quiz_id] = []);
+			state[localQuestion.local_learnable_resource] ||
+			(state[localQuestion.local_learnable_resource] = []);
 		localQuestions.push(localQuestion);
 		return state;
 	}, {} as QuestionsByLocalQuizIdStore)
@@ -156,7 +157,7 @@ async function syncQuestions(userId: number) {
 						tasks.push(
 							questionApi
 								.deleteApiQuestionsId({
-									quizId: apiQuestion.quiz_id,
+									quizId: apiQuestion.learnable_resource,
 									id: apiQuestion.id
 								})
 								.then(() => idbDeleteQuestion(localQuestion.local_id))
@@ -169,7 +170,7 @@ async function syncQuestions(userId: number) {
 						tasks.push(
 							questionApi
 								.patchApiQuestionsId({
-									quizId: apiQuestion.quiz_id,
+									quizId: apiQuestion.learnable_resource,
 									id: apiQuestion.id,
 									patchApiQuestionsId: { ...apiQuestion, ...localQuestion }
 								})
@@ -186,8 +187,8 @@ async function syncQuestions(userId: number) {
 					tasks.push(
 						idbUpdateQuestion(
 							userId,
-							localQuestion.local_quiz_id,
-							apiQuestion.quiz_id,
+							localQuestion.local_learnable_resource,
+							apiQuestion.learnable_resource,
 							localQuestion.local_id,
 							{
 								...localQuestion,
@@ -202,7 +203,7 @@ async function syncQuestions(userId: number) {
 					apiQuestionsByLocalId[localQuestion.local_id] = { ...localQuestion, ...apiQuestion };
 				}
 			} else {
-				const localQuiz = quizzesById[apiQuestion.quiz_id];
+				const localQuiz = quizzesById[apiQuestion.learnable_resource];
 				// add remote to local
 				tasks.push(
 					idbCreateQuestion(userId, localQuiz.local_id, localQuiz.id, apiQuestion).then(
@@ -217,14 +218,14 @@ async function syncQuestions(userId: number) {
 			tasks.push(
 				questionApi
 					.postApiQuestions({
-						quizId: localQuestion.quiz_id,
+						quizId: localQuestion.learnable_resource,
 						postApiQuestions: localQuestion
 					})
 					.then((apiQuestion) =>
 						idbSetFromRemoteQuestion(
 							userId,
-							localQuestion.local_quiz_id,
-							localQuestion.quiz_id,
+							localQuestion.local_learnable_resource,
+							localQuestion.learnable_resource,
 							localQuestion.local_id,
 							apiQuestion
 						)

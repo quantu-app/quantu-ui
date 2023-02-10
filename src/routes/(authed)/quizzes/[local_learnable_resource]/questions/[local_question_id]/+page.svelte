@@ -7,7 +7,7 @@
 	import EditQuestion from '$lib/components/question/EditQuestion.svelte';
 	import { questionByLocalQuestionId } from '$lib/stores/questions';
 
-	$: localQuizId = parseInt($page.params.local_quiz_id);
+	$: localQuizId = parseInt($page.params.local_learnable_resource);
 	$: localQuestionId = parseInt($page.params.local_question_id);
 	$: localQuestion = $questionByLocalQuestionId[localQuestionId];
 

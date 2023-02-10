@@ -7,7 +7,7 @@
 	import CreateQuestion from '$lib/components/question/CreateQuestion.svelte';
 	import { quizzes } from '$lib/stores/quizzes';
 
-	$: localQuizId = parseInt($page.params.local_quiz_id);
+	$: localQuizId = parseInt($page.params.local_learnable_resource);
 
 	async function onSelect(e: Event & { currentTarget: HTMLSelectElement }) {
 		await goto(`${base}/quizzes/${e.currentTarget.value}/questions/create`);

@@ -32,12 +32,6 @@ export interface Question {
      */
     user_id: number;
     /**
-     * Quiz Id
-     * @type {number}
-     * @memberof Question
-     */
-    quiz_id: number;
-    /**
      * Name
      * @type {string}
      * @memberof Question
@@ -118,7 +112,6 @@ export function instanceOfQuestion(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "id" in value;
     isInstance = isInstance && "user_id" in value;
-    isInstance = isInstance && "quiz_id" in value;
     isInstance = isInstance && "learnable_resource_type" in value;
     isInstance = isInstance && "learnable_resource" in value;
     isInstance = isInstance && "question_type" in value;
@@ -142,7 +135,6 @@ export function QuestionFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
         
         'id': json['id'],
         'user_id': json['user_id'],
-        'quiz_id': json['quiz_id'],
         'name': !exists(json, 'name') ? undefined : json['name'],
         'uri': !exists(json, 'uri') ? undefined : json['uri'],
         'learnable_resource_type': json['learnable_resource_type'],
@@ -166,7 +158,6 @@ export function QuestionToJSON(value?: Question | null): any {
         
         'id': value.id,
         'user_id': value.user_id,
-        'quiz_id': value.quiz_id,
         'name': value.name,
         'uri': value.uri,
         'learnable_resource_type': value.learnable_resource_type,

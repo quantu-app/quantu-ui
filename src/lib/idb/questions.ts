@@ -1,8 +1,4 @@
-import type {
-	PatchApiQuizzesQuizIdQuestionsId,
-	PostApiQuizzesQuizIdQuestions,
-	Question
-} from '$lib/openapi/quantu';
+import type { PatchApiQuestionsId, PostApiQuestions, Question } from '$lib/openapi/quantu';
 import { convertToUrlSafe } from '$lib/util';
 import { getIndexedDB, type LocalQuestion } from './IndexedDB';
 
@@ -22,7 +18,7 @@ export async function idbCreateQuestion(
 	userId: number,
 	localQuizId: number,
 	quizId: number,
-	data: PostApiQuizzesQuizIdQuestions
+	data: PostApiQuestions
 ) {
 	const db = await getIndexedDB();
 	const localQuestion = {
@@ -39,7 +35,7 @@ export async function idbUpdateQuestion(
 	localQuizId: number,
 	quizId: number,
 	localId: number,
-	data: PatchApiQuizzesQuizIdQuestionsId
+	data: PatchApiQuestionsId
 ) {
 	const db = await getIndexedDB();
 	const localQuestion =
@@ -48,13 +44,13 @@ export async function idbUpdateQuestion(
 		...localQuestion,
 		...data,
 		user_id: userId,
-		local_quiz_id: localQuizId,
-		quiz_id: quizId,
+		local_learnable_resource: localQuizId,
+		learnable_resource: quizId,
 		local_id: localId,
 		uri: data.name ? convertToUrlSafe(data.name) : localQuestion.uri,
 		updated_at: new Date()
 	};
-	await db.put('questions', updatedQuestion, localId);
+	await db.put('questions', updatedQuestion);
 	return updatedQuestion;
 }
 
@@ -72,8 +68,8 @@ export async function idbSetFromRemoteQuestion(
 		...localQuestion,
 		...question,
 		user_id: userId,
-		local_quiz_id: localQuizId,
-		quiz_id: quizId,
+		local_learnable_resource: localQuizId,
+		learnable_resource: quizId,
 		local_id: localId
 	};
 	await db.put('questions', updatedLocalQuestion);
@@ -92,8 +88,8 @@ export async function idbMarkQuestionAsDeleted(
 	const deletedQuestion = {
 		...question,
 		user_id: userId,
-		local_quiz_id: localQuizId,
-		quiz_id: quizId,
+		local_learnable_resource: localQuizId,
+		learnable_resource: quizId,
 		local_id: localId,
 		updated_at: new Date(),
 		local_deleted: 1
@@ -109,9 +105,9 @@ export async function idbDeleteQuestion(localId: number) {
 function createEmptyQuestion(userId: number, localQuizId: number, quizId: number) {
 	return {
 		id: 0,
-		local_quiz_id: localQuizId,
+		local_learnable_resource: localQuizId,
 		local_deleted: 0,
-		quiz_id: quizId,
+		learnable_resource: quizId,
 		user_id: userId,
 		name: '',
 		uri: '',

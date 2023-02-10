@@ -40,7 +40,7 @@ export async function idbUpdateQuiz(
 		uri: data.name ? convertToUrlSafe(data.name) : localQuiz.uri,
 		updated_at: new Date()
 	};
-	await db.put('quizzes', updatedQuiz, localId);
+	await db.put('quizzes', updatedQuiz);
 	return updatedQuiz;
 }
 
