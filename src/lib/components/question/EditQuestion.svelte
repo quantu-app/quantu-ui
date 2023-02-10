@@ -2,16 +2,18 @@
 
 <script lang="ts">
 	import type { LocalQuestion } from '$lib/idb/IndexedDB';
-	import { createQuestion, updateQuestion } from '$lib/stores/questions';
+	import { updateQuestion } from '$lib/stores/questions';
 	import { autofocus } from '$lib/util';
 	import FlashCardEditor from './FlashCardEditor.svelte';
 
 	export let localQuizId: number;
 	export let localQuestionId: number;
 	export let question: LocalQuestion;
+	export let onUpdate: (question: LocalQuestion) => void;
 
 	async function onSubmit() {
-		const _question = await updateQuestion(localQuizId, localQuestionId, question);
+		const updatedQuestion = await updateQuestion(localQuizId, localQuestionId, question);
+		onUpdate(updatedQuestion);
 	}
 	function onChangeName(e: Event & { currentTarget: HTMLInputElement }) {
 		question = { ...question, name: e.currentTarget.value };
