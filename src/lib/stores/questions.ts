@@ -10,8 +10,8 @@ import {
 	idbUpdateQuestion
 } from '$lib/idb/questions';
 import { waitForUser, getUser } from './user';
-import type { Question, PostApiQuizzesQuizIdQuestions } from '$lib/openapi/quantu';
-import { quizApi, questionApi } from '$lib/openapi';
+import type { PostApiQuestions, Question } from '$lib/openapi/quantu';
+import { questionApi } from '$lib/openapi';
 import { idbMarkQuestionAsDeleted } from '$lib/idb/questions';
 import { idbGetQuizByLocalId } from '$lib/idb/quizzes';
 import { getQuizzes, type QuizStore } from './quizzes';
@@ -21,6 +21,7 @@ export type QuestionsByLocalQuizIdStore = { [localQuizId: string]: LocalQuestion
 
 const questionsByIdWritable = writable<QuestionStore>({});
 export const questions = derived(questionsByIdWritable, (state) => Object.values(state));
+export const questionByLocalQuestionId = derived(questionsByIdWritable, (state) => state);
 export const questionByLocalQuizId = derived(questionsByIdWritable, (state) =>
 	Object.values(state).reduce((state, localQuestion) => {
 		const localQuestions =
@@ -30,7 +31,7 @@ export const questionByLocalQuizId = derived(questionsByIdWritable, (state) =>
 	}, {} as QuestionsByLocalQuizIdStore)
 );
 
-export async function createQuestion(localQuizId: number, data: PostApiQuizzesQuizIdQuestions) {
+export async function createQuestion(localQuizId: number, data: PostApiQuestions) {
 	const localQuiz = await idbGetQuizByLocalId(localQuizId);
 	if (localQuiz) {
 		const userId = getUser()?.id as number;
@@ -53,11 +54,7 @@ export async function createQuestion(localQuizId: number, data: PostApiQuizzesQu
 	}
 }
 
-export async function updateQuestion(
-	localQuizId: number,
-	localId: number,
-	data: PostApiQuizzesQuizIdQuestions
-) {
+export async function updateQuestion(localQuizId: number, localId: number, data: PostApiQuestions) {
 	const localQuiz = await idbGetQuizByLocalId(localQuizId);
 	if (localQuiz) {
 		const localQuestion = await idbGetQuestionByLocalId(localId);
@@ -65,10 +62,10 @@ export async function updateQuestion(
 			const userId = getUser()?.id as number;
 			let serverQuestion: Partial<Question> = {};
 			if (isOnline()) {
-				serverQuestion = await quizApi.patchApiQuizzesQuizIdQuestionsId({
+				serverQuestion = await questionApi.patchApiQuestionsId({
 					quizId: localQuiz.id,
 					id: localQuestion.id,
-					patchApiQuizzesQuizIdQuestionsId: data
+					patchApiQuestionsId: data
 				});
 			}
 			const updatedLocalQuestion = await idbUpdateQuestion(
@@ -97,7 +94,7 @@ export async function deleteQuestion(localQuizId: number, localId: number) {
 		if (isOnline()) {
 			const localQuestion = await idbGetQuestionByLocalId(localId);
 			if (localQuestion) {
-				await quizApi.deleteApiQuizzesQuizIdQuestionsId({
+				await questionApi.deleteApiQuestionsId({
 					quizId: localQuiz.id,
 					id: localQuestion.id
 				});
@@ -142,7 +139,7 @@ async function syncQuestions(userId: number) {
 		const apiQuestions = (
 			await Promise.all(
 				Object.keys(quizzesById).map((quizId) =>
-					quizApi.getApiQuizzesQuizIdQuestions({ quizId: parseInt(quizId) })
+					questionApi.getApiQuestions({ quizId: parseInt(quizId) })
 				)
 			)
 		).flat(1);
@@ -157,8 +154,8 @@ async function syncQuestions(userId: number) {
 					if (localQuestion.local_deleted === 1) {
 						// delete remote and local question
 						tasks.push(
-							quizApi
-								.deleteApiQuizzesQuizIdQuestionsId({
+							questionApi
+								.deleteApiQuestionsId({
 									quizId: apiQuestion.quiz_id,
 									id: apiQuestion.id
 								})
@@ -170,11 +167,11 @@ async function syncQuestions(userId: number) {
 					} else {
 						// update api question with local
 						tasks.push(
-							quizApi
-								.patchApiQuizzesQuizIdQuestionsId({
+							questionApi
+								.patchApiQuestionsId({
 									quizId: apiQuestion.quiz_id,
 									id: apiQuestion.id,
-									patchApiQuizzesQuizIdQuestionsId: { ...apiQuestion, ...localQuestion }
+									patchApiQuestionsId: { ...apiQuestion, ...localQuestion }
 								})
 								.then((apiUpdatedQuestion) => {
 									apiQuestionsByLocalId[localQuestion.id] = {
@@ -218,10 +215,10 @@ async function syncQuestions(userId: number) {
 		}
 		for (const localQuestion of localOnlyQuestions) {
 			tasks.push(
-				quizApi
-					.postApiQuizzesQuizIdQuestions({
+				questionApi
+					.postApiQuestions({
 						quizId: localQuestion.quiz_id,
-						postApiQuizzesQuizIdQuestions: localQuestion
+						postApiQuestions: localQuestion
 					})
 					.then((apiQuestion) =>
 						idbSetFromRemoteQuestion(
