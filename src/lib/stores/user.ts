@@ -32,7 +32,7 @@ function removeJWT() {
 }
 
 export async function signIn(email: string, password: string) {
-	const jwt = await authApi.postApiAuthLogin({ postApiAuthLogin: { email, password }});
+	const jwt = await authApi.postApiAuthLogin({ postApiAuthLogin: { email, password } });
 	setJWT(jwt);
 	const user = await authApi.getApiAuthMe();
 	userWritable.set(user);

@@ -230,7 +230,7 @@ export class QuestionsApi extends runtime.BaseAPI implements QuestionsApiInterfa
 		const queryParameters: any = {};
 
 		if (requestParameters.quizId !== undefined) {
-			queryParameters['learnable_resource'] = requestParameters.quizId;
+			queryParameters['quiz_id'] = requestParameters.quizId;
 		}
 
 		const headerParameters: runtime.HTTPHeaders = {};
@@ -282,7 +282,7 @@ export class QuestionsApi extends runtime.BaseAPI implements QuestionsApiInterfa
 		const queryParameters: any = {};
 
 		if (requestParameters.quizId !== undefined) {
-			queryParameters['learnable_resource'] = requestParameters.quizId;
+			queryParameters['quiz_id'] = requestParameters.quizId;
 		}
 
 		const headerParameters: runtime.HTTPHeaders = {};
@@ -339,7 +339,7 @@ export class QuestionsApi extends runtime.BaseAPI implements QuestionsApiInterfa
 		const queryParameters: any = {};
 
 		if (requestParameters.quizId !== undefined) {
-			queryParameters['learnable_resource'] = requestParameters.quizId;
+			queryParameters['quiz_id'] = requestParameters.quizId;
 		}
 
 		const headerParameters: runtime.HTTPHeaders = {};
@@ -409,7 +409,7 @@ export class QuestionsApi extends runtime.BaseAPI implements QuestionsApiInterfa
 		const queryParameters: any = {};
 
 		if (requestParameters.quizId !== undefined) {
-			queryParameters['learnable_resource'] = requestParameters.quizId;
+			queryParameters['quiz_id'] = requestParameters.quizId;
 		}
 
 		const headerParameters: runtime.HTTPHeaders = {};
@@ -482,7 +482,7 @@ export class QuestionsApi extends runtime.BaseAPI implements QuestionsApiInterfa
 		const queryParameters: any = {};
 
 		if (requestParameters.quizId !== undefined) {
-			queryParameters['learnable_resource'] = requestParameters.quizId;
+			queryParameters['quiz_id'] = requestParameters.quizId;
 		}
 
 		const headerParameters: runtime.HTTPHeaders = {};
@@ -548,7 +548,7 @@ export class QuestionsApi extends runtime.BaseAPI implements QuestionsApiInterfa
 		const queryParameters: any = {};
 
 		if (requestParameters.quizId !== undefined) {
-			queryParameters['learnable_resource'] = requestParameters.quizId;
+			queryParameters['quiz_id'] = requestParameters.quizId;
 		}
 
 		const headerParameters: runtime.HTTPHeaders = {};
