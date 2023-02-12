@@ -16,7 +16,7 @@ const config = {
 		}),
 		appDir: 'internal',
 		paths: {
-			base: process.env.USE_BASE_PATH ? '/quantu' : ''
+			base: process.env.USE_BASE_PATH ? '/quantu-ui' : ''
 		}
 	}
 };
