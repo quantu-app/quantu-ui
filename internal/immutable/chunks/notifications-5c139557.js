@@ -1,0 +1,1 @@
+import{c}from"./IconBase-bfd10f6f.js";import{w as s}from"./index-3f2a2081.js";const r=s([]),d=r;function m(n,i="error",e=5e3){const o=c();return r.update(t=>[...t,{id:o,message:n,type:i}]),setTimeout(()=>a(o),e),o}function a(n){r.update(i=>{const e=i.findIndex(o=>o.id===n);return e===-1||(i=i.slice(),i.splice(e,1)),i})}export{m as c,d as n,a as r};
