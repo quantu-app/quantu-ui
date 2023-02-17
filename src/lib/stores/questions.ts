@@ -157,7 +157,7 @@ async function syncQuestions(userId: number) {
 						tasks.push(
 							questionApi
 								.deleteApiQuestionsId({
-									quizId: apiQuestion.learnable_resource,
+									quizId: apiQuestion.learnable_resource_id,
 									id: apiQuestion.id
 								})
 								.then(() => idbDeleteQuestion(localQuestion.local_id))
@@ -170,7 +170,7 @@ async function syncQuestions(userId: number) {
 						tasks.push(
 							questionApi
 								.patchApiQuestionsId({
-									quizId: apiQuestion.learnable_resource,
+									quizId: apiQuestion.learnable_resource_id,
 									id: apiQuestion.id,
 									patchApiQuestionsId: { ...apiQuestion, ...localQuestion }
 								})
@@ -188,7 +188,7 @@ async function syncQuestions(userId: number) {
 						idbUpdateQuestion(
 							userId,
 							localQuestion.local_learnable_resource,
-							apiQuestion.learnable_resource,
+							apiQuestion.learnable_resource_id,
 							localQuestion.local_id,
 							{
 								...localQuestion,
@@ -203,7 +203,7 @@ async function syncQuestions(userId: number) {
 					apiQuestionsByLocalId[localQuestion.local_id] = { ...localQuestion, ...apiQuestion };
 				}
 			} else {
-				const localQuiz = quizzesById[apiQuestion.learnable_resource];
+				const localQuiz = quizzesById[apiQuestion.learnable_resource_id];
 				// add remote to local
 				tasks.push(
 					idbCreateQuestion(userId, localQuiz.local_id, localQuiz.id, apiQuestion).then(
@@ -218,14 +218,14 @@ async function syncQuestions(userId: number) {
 			tasks.push(
 				questionApi
 					.postApiQuestions({
-						quizId: localQuestion.learnable_resource,
+						quizId: localQuestion.learnable_resource_id,
 						postApiQuestions: localQuestion
 					})
 					.then((apiQuestion) =>
 						idbSetFromRemoteQuestion(
 							userId,
 							localQuestion.local_learnable_resource,
-							localQuestion.learnable_resource,
+							localQuestion.learnable_resource_id,
 							localQuestion.local_id,
 							apiQuestion
 						)

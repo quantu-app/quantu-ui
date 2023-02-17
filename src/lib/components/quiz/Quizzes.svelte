@@ -6,9 +6,9 @@
 	import type { Quiz } from '$lib/openapi/quantu/models/Quiz';
 	import SortDirection from '../SortDirection.svelte';
 	import type { LocalQuiz } from '$lib/idb/IndexedDB';
-	import { goto } from '$app/navigation';
-	import { base } from '$app/paths';
 	import { deleteQuiz } from '$lib/stores/quizzes';
+	import MdDelete from 'svelte-icons/md/MdDelete.svelte';
+	import MdEdit from 'svelte-icons/md/MdEdit.svelte';
 
 	export let quizzes: LocalQuiz[];
 
@@ -32,29 +32,30 @@
 		};
 	}
 
-	// EDITING
-	let editQuizLocalId: number;
-	let editQuizName: string;
-	let editQuizOpen: boolean = false;
-
-	function onUpdateQuizOpen(localId: number, name: string) {
-		editQuizName = name;
-		editQuizLocalId = localId;
-		editQuizOpen = true;
-	}
-
 	function onUpdateQuizClose() {
 		editQuizName = '';
 		editQuizLocalId = -1;
 		editQuizOpen = false;
 	}
 
-	// DELETING
-	async function onDelete(localId: number) {
-		let cont = window.confirm('Are you sure?');
-		if (cont) {
-			let _res = await deleteQuiz(localId);
-		}
+	function createOnDelete(localId: number) {
+		return async () => {
+			let cont = window.confirm('Are you sure?');
+			if (cont) {
+				let _res = await deleteQuiz(localId);
+			}
+		};
+	}
+
+	let editQuizLocalId: number;
+	let editQuizName: string;
+	let editQuizOpen: boolean = false;
+	function createOnUpdateQuizOpen(localId: number, name: string) {
+		return () => {
+			editQuizName = name;
+			editQuizLocalId = localId;
+			editQuizOpen = true;
+		};
 	}
 </script>
 
@@ -83,6 +84,7 @@
 					asc={sort && sort[1] === 1}
 				/></th
 			>
+			<th class="border-b dark:border-slate-600 cursor-pointer select-none text-left p-1" />
 		</tr>
 	</thead>
 	<tbody>
@@ -94,16 +96,13 @@
 				<td class="border-b border-slate-100 dark:border-slate-700 p-1"
 					>{quiz.created_at.toLocaleString()}</td
 				>
-				<td class="quiz-commands">
-					<button
-						on:click={() => {
-							onDelete(quiz.local_id);
-						}}
-						class="btn danger">delete</button
+				<td class="border-b border-slate-100 dark:border-slate-700 p-1">
+					<button on:click={createOnDelete(quiz.local_id)} class="btn danger p-1 w-8 h-8"
+						><MdDelete /></button
 					>
 					<button
-						on:click|preventDefault={() => onUpdateQuizOpen(quiz.local_id, quiz.name)}
-						class="btn primary">edit</button
+						on:click|preventDefault={createOnUpdateQuizOpen(quiz.local_id, quiz.name)}
+						class="btn primary p-1 w-8 h-8"><MdEdit /></button
 					>
 				</td>
 			</tr>

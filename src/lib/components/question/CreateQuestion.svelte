@@ -2,6 +2,7 @@
 
 <script lang="ts">
 	import type { LocalQuestion } from '$lib/idb/IndexedDB';
+	import { createNotification } from '$lib/stores/notifications';
 	import { createQuestion } from '$lib/stores/questions';
 	import { autofocus } from '$lib/util';
 	import FlashCardEditor from './FlashCardEditor.svelte';
@@ -18,6 +19,7 @@
 			question_type: questionType,
 			data
 		});
+		createNotification(`Successfully created ${name || 'Question'}`, 'success');
 		name = '';
 		questionType = 'flash_card';
 		data = {};

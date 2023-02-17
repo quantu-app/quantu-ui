@@ -45,7 +45,7 @@ export async function idbUpdateQuestion(
 		...data,
 		user_id: userId,
 		local_learnable_resource: localQuizId,
-		learnable_resource: quizId,
+		learnable_resource_id: quizId,
 		local_id: localId,
 		uri: data.name ? convertToUrlSafe(data.name) : localQuestion.uri,
 		updated_at: new Date()
@@ -69,7 +69,7 @@ export async function idbSetFromRemoteQuestion(
 		...question,
 		user_id: userId,
 		local_learnable_resource: localQuizId,
-		learnable_resource: quizId,
+		learnable_resource_id: quizId,
 		local_id: localId
 	};
 	await db.put('questions', updatedLocalQuestion);
@@ -89,7 +89,7 @@ export async function idbMarkQuestionAsDeleted(
 		...question,
 		user_id: userId,
 		local_learnable_resource: localQuizId,
-		learnable_resource: quizId,
+		learnable_resource_id: quizId,
 		local_id: localId,
 		updated_at: new Date(),
 		local_deleted: 1
@@ -107,7 +107,7 @@ function createEmptyQuestion(userId: number, localQuizId: number, quizId: number
 		id: 0,
 		local_learnable_resource: localQuizId,
 		local_deleted: 0,
-		learnable_resource: quizId,
+		learnable_resource_id: quizId,
 		user_id: userId,
 		name: '',
 		uri: '',

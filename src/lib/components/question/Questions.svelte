@@ -6,6 +6,8 @@
 	import type { LocalQuestion } from '$lib/idb/IndexedDB';
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
+	import { deleteQuestion } from '$lib/stores/questions';
+	import MdDelete from 'svelte-icons/md/MdDelete.svelte';
 
 	export let localQuizId: number;
 	export let questions: LocalQuestion[];
@@ -34,6 +36,15 @@
 			await goto(`${base}/quizzes/${localQuizId}/questions/${question.local_id}`);
 		};
 	}
+
+	function createOnDelete(localId: number) {
+		return async () => {
+			let cont = window.confirm('Are you sure?');
+			if (cont) {
+				let _res = await deleteQuestion(localQuizId, localId);
+			}
+		};
+	}
 </script>
 
 <a class="btn primary" href={`${base}/quizzes/${localQuizId}/questions/create`}>Create Question</a>
@@ -54,6 +65,7 @@
 					asc={sort && sort[1] === 1}
 				/></th
 			>
+			<th class="border-b dark:border-slate-600 cursor-pointer select-none text-left p-1" />
 		</tr>
 	</thead>
 	<tbody>
@@ -63,6 +75,11 @@
 				<td class="border-b border-slate-100 dark:border-slate-700 p-1"
 					>{question.created_at.toLocaleString()}</td
 				>
+				<td class="border-b border-slate-100 dark:border-slate-700 p-1">
+					<button on:click={createOnDelete(question.local_id)} class="btn danger p-1 w-8 h-8"
+						><MdDelete /></button
+					>
+				</td>
 			</tr>
 		{/each}
 	</tbody>

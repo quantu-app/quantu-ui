@@ -41,7 +41,7 @@ export interface IndexedDBSchema extends DBSchema {
 		indexes: {
 			id: number;
 			user_id: number;
-			learnable_resource: number;
+			learnable_resource_id: number;
 			local_learnable_resource: number;
 			local_id: number;
 			local_deleted: number;
