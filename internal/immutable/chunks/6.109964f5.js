@@ -1,0 +1,1 @@
+import{default as t}from"../entry/(authed)-quizzes-_local_learnable_resource_-page.svelte.811e7366.js";export{t as component};
