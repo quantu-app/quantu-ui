@@ -9,6 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       USE_BASE_PATH: true
+      VITE_QUANTU_API_URL: https://api.quantu.app
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
