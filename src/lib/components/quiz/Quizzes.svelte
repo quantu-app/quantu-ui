@@ -43,7 +43,7 @@
 		return async () => {
 			let cont = window.confirm('Are you sure?');
 			if (cont) {
-				let _res = await deleteQuiz(localId);
+				await deleteQuiz(localId);
 			}
 		};
 	}
@@ -65,7 +65,7 @@
 <UpdateQuiz
 	name={editQuizName}
 	localId={editQuizLocalId}
-	open={editQuizOpen}
+	bind:open={editQuizOpen}
 	onClose={onUpdateQuizClose}
 />
 
