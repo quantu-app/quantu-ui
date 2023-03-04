@@ -2,7 +2,7 @@
 
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import Layout from '$lib/components/Layout.svelte';
+	import { base } from '$app/paths';
 	import { signIn } from '$lib/stores/user';
 
 	let email: string;
@@ -10,7 +10,7 @@
 
 	async function onSubmit() {
 		await signIn(email, password);
-		await goto('/');
+		await goto(`${base}/`);
 	}
 </script>
 
