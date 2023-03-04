@@ -5,25 +5,34 @@
 		<link rel="icon" href="/quantu-ui/favicon.png" />
 		<meta name="viewport" content="width=device-width" />
 		<meta http-equiv="content-security-policy" content="">
-		<link rel="modulepreload" href="/quantu-ui/internal/immutable/start-c6a8ec63.js">
-		<link rel="modulepreload" href="/quantu-ui/internal/immutable/chunks/index-6abebcc6.js">
-		<link rel="modulepreload" href="/quantu-ui/internal/immutable/chunks/singletons-a46691ff.js">
-		<link rel="modulepreload" href="/quantu-ui/internal/immutable/chunks/index-3f2a2081.js">
-		<link rel="modulepreload" href="/quantu-ui/internal/immutable/chunks/shared-23917130.js">
-		<link rel="modulepreload" href="/quantu-ui/internal/immutable/chunks/preload-helper-41c905a7.js">
-		<link rel="modulepreload" href="/quantu-ui/internal/immutable/chunks/control-e7f5239e.js">
+		<link rel="modulepreload" href="/quantu-ui/internal/immutable/entry/start.dd75da50.js">
+		<link rel="modulepreload" href="/quantu-ui/internal/immutable/chunks/index.18be049c.js">
+		<link rel="modulepreload" href="/quantu-ui/internal/immutable/chunks/singletons.f067353a.js">
+		<link rel="modulepreload" href="/quantu-ui/internal/immutable/chunks/index.7096773c.js">
+		<link rel="modulepreload" href="/quantu-ui/internal/immutable/chunks/paths.6dfb4be2.js">
+		<link rel="modulepreload" href="/quantu-ui/internal/immutable/chunks/control.e7f5239e.js">
+		<link rel="modulepreload" href="/quantu-ui/internal/immutable/entry/app.7f33ca2f.js">
+		<link rel="modulepreload" href="/quantu-ui/internal/immutable/chunks/preload-helper.41c905a7.js">
 	</head>
 	<body data-sveltekit-preload-data="hover">
 		<div id="app">
-		<script type="module" data-sveltekit-hydrate="45h">
-			import { start } from "/quantu-ui/internal/immutable/start-c6a8ec63.js";
+			<script>
+				{
+					__sveltekit_1nr6yyh = {
+						env: {},
+						assets: "/quantu-ui",
+						base: "/quantu-ui",
+						element: document.currentScript.parentElement
+					};
 
-			start({
-				env: {},
-				paths: {"assets":"/quantu-ui","base":"/quantu-ui"},
-				target: document.querySelector('[data-sveltekit-hydrate="45h"]').parentNode,
-				version: "1676640904821"
-			});
-		</script></div>
+					Promise.all([
+						import("/quantu-ui/internal/immutable/entry/start.dd75da50.js"),
+						import("/quantu-ui/internal/immutable/entry/app.7f33ca2f.js")
+					]).then(([kit, app]) => {
+						kit.start(app, __sveltekit_1nr6yyh.element);
+					});
+				}
+			</script>
+		</div>
 	</body>
 </html>
