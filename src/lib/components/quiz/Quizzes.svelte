@@ -92,7 +92,7 @@
 		{#each quizzes as quiz (quiz.local_id)}
 			<tr class="hover:bg-gray-200 cursor-pointer">
 				<td class="border-b border-slate-100 dark:border-slate-700 p-1">
-					<a href={`${base}/quizzes/{quiz.local_id}`}>{quiz.name}</a>
+					<a href={`${base}/quizzes/${quiz.local_id}`}>{quiz.name}</a>
 				</td>
 				<td class="border-b border-slate-100 dark:border-slate-700 p-1"
 					>{quiz.created_at.toLocaleString()}</td
