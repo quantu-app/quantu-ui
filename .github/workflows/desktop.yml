@@ -12,6 +12,8 @@ jobs:
         platform: [macos-latest, ubuntu-latest, windows-latest]
 
     runs-on: ${{ matrix.platform }}
+    env:
+      VITE_QUANTU_API_URL: https://api.quantu.app
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
